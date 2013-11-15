@@ -1,0 +1,12 @@
+<%= form_for [@user,@pendingtask] do |f| %>
+  <%= f.label :text %>
+  <%= f.text_area :text %>
+  <br>
+  <%= f.label :assignee_id %>
+  <%= f.text_field :assignee_id %>
+  <br>
+  <%= f.label :voter_ids %>
+  <%= f.text_field :voter_ids %>
+  <br>
+  <%= f.submit %>
+<% end %>

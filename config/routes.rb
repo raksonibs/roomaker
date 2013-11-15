@@ -3,6 +3,7 @@ Roommaker::Application.routes.draw do
   resources :sessions, :only=> [:new,:create,:destroy]
   resources :users do
     resources :pendingtasks
+    resources :acceptedtasks
   end
   root "welcome#index"
 
