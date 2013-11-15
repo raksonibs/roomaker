@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131115045106) do
+ActiveRecord::Schema.define(version: 20131115195524) do
+
+  create_table "pendingtasks", force: true do |t|
+    t.string   "text"
+    t.integer  "user_id"
+    t.integer  "assignee_id"
+    t.string   "voter_ids"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"

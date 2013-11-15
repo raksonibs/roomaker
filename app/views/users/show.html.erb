@@ -1,0 +1,8 @@
+<%= link_to "New Pending Task", new_user_pendingtask_path(@user.id) %><br>
+<br> Pending:
+<% @pendingtasks.each do |task| %>
+  <%= task.text %>, <%= task.voter_ids %>, <%= task.assignee_id %> | <br>
+<% end %>
+
+<br>
+

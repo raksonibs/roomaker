@@ -1,7 +1,9 @@
 Roommaker::Application.routes.draw do
   get "welcome/index"
   resources :sessions, :only=> [:new,:create,:destroy]
-  resources :users
+  resources :users do
+    resources :pendingtasks
+  end
   root "welcome#index"
 
   get "welcome_path" => "welcome#index"
