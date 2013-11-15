@@ -12,6 +12,8 @@ Roommaker::Application.routes.draw do
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
   get '/sessions' => 'sessions#create'
+  get '/users/:user_id/:id/yes' => "pendingtasks#yes"
+  get '/users/:user_id/:id/no' => "pendingtasks#no"
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
