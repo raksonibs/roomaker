@@ -25,7 +25,8 @@ class SessionsController < ApplicationController
   end
 
   def failure
-  	raise params.inspect
+    flash[:error]= "Nope"
+  	redirect_to root_url
   end
 
   def destroy
