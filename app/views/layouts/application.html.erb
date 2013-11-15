@@ -9,7 +9,7 @@
 <body>
 <div id="user-widget">
 <% if current_user %>
-  Welcome <%= User.find_by_id(current_user).name %> || <%= link_to "Sign out", signout_path, id: "sign_out" %> || <%= link_to "What's doing?", user_path(User.find_by_id(current_user)) %>
+  Welcome <%= User.find_by_id(current_user).name %> <%= image_tag(current_user.smallimage)%> || <%= link_to "Sign out", signout_path, id: "sign_out" %> || <%= link_to "What's doing?", user_path(User.find_by_id(current_user)) %>
 <% else %>
   <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %> || <%= link_to "Sign in without Facebook", new_session_path %> || <%= link_to "Sign up without Facebook", new_user_path %>
 <% end %>

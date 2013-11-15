@@ -11,7 +11,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :current_user
+
+  def smallimage 
+    "http://graph.facebook.com/#{current_user.uid}/picture?type=small" 
+  end
+
+  helper_method :current_user, :smallimage
 
 end
 =begin
