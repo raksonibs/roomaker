@@ -15,5 +15,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.addpending(id, pendingtask)
+    User.find_by_id(id).pendingtasks.create!(pendingtask)
+  end
+
 
 end
