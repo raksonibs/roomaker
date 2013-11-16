@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
 			@group.users << @user
 			redirect_to "/users/#{current_user.id}"
 		else
-			render 'new'
+			render :new
 		end
 	end
 
@@ -27,6 +27,20 @@ class GroupsController < ApplicationController
 		@group.destroy
 		redirect_to "/users/#{current_user.id}"
 	end
+
+	def edit
+		@group = Group.find(params[:id])
+	end
+
+	def update 
+		@group = Group.find(params[:id])
+		if @group.update_attributes(group_params)
+			redirect_to "/users/#{current_user.id}"
+		else
+			render :edit
+		end
+	end
+
 
 	private
 	def group_params

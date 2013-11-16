@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     @acceptedtasks = @user.acceptedtasks
     @currenttasks= @user.currenttasks
     @completedtasks = @user.completedtasks
+    @groups=@user.groups
 	end
 
   private
