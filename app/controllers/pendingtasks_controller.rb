@@ -45,11 +45,13 @@ class PendingtasksController < ApplicationController
 
 	def yes
 		@user=User.find(params[:user_id])
+		@pendingtask=Pendingtask.find_by_id(params[:id]).text
 		User.all.each do |user|
-			user.pendingtasks.each do |task|
-			   @task=Pendingtask.find_by_id(params[:id])
-			   @task.points+=1 if (task.id).to_i == params[:id].to_i
-			   @task.save
+
+			if user.pendingtasks.find_by_text(@pendingtask)
+				val=user.pendingtasks.find_by_text(@pendingtask)
+				val.points+=1 
+				val.save
 
 			end
 		end
@@ -59,9 +61,17 @@ class PendingtasksController < ApplicationController
 
 	def no
 		@user=User.find(params[:user_id])
-		@pendingtask=@user.pendingtasks.find_by_id(params[:id])
-		@pendingtask.points-=1
-		@pendingtask.save
+		@pendingtask=Pendingtask.find_by_id(params[:id]).text
+		User.all.each do |user|
+
+			if user.pendingtasks.find_by_text(@pendingtask)
+				val=user.pendingtasks.find_by_text(@pendingtask)
+				val.points-=1 
+				val.save
+
+			end
+		end
+
 		redirect_to @user
 	end
 
