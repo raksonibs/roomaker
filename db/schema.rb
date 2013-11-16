@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116045100) do
+ActiveRecord::Schema.define(version: 20131116075459) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20131116045100) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "groups_users", id: false, force: true do |t|
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(version: 20131116045100) do
     t.datetime "updated_at"
     t.integer  "points"
     t.integer  "threshold"
+    t.string   "group"
   end
 
   create_table "users", force: true do |t|
@@ -69,6 +71,7 @@ ActiveRecord::Schema.define(version: 20131116045100) do
     t.string   "fname"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.integer  "group_id"
   end
 
 end

@@ -14,10 +14,13 @@ class PendingtasksController < ApplicationController
 		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
 		@pendingtask.user_id=current_user.id #need user id to give review.user something
 		#since reviews belong to users they get the id from current
+		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
+		debugger
 		stringofids=params[:pendingtask][:voter_ids]+  " "+params[:pendingtask][:assignee_id]
 		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
 		@pendingtask.threshold=threshold
 		#2 4 5 
+
 
 
 

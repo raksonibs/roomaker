@@ -8,5 +8,7 @@
   <%= f.label :voter_ids %>
   <%= f.text_field :voter_ids %>
   <br>
+  <%= f.label :group %>
+  <%= f.select :group, @user.groups.map{|g| [g.name,g.id]} %><br>
   <%= f.submit %>
 <% end %>
