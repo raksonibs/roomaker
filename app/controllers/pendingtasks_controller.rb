@@ -1,4 +1,7 @@
 class PendingtasksController < ApplicationController
+
+	before_filter :delete
+
 	def new
 		@user=User.find(params[:user_id])
 		@pendingtask=Pendingtask.new
@@ -7,11 +10,13 @@ class PendingtasksController < ApplicationController
 	def create
 		@user=User.find(params[:user_id])
 		@pendingtask=@user.pendingtasks.build(pendingtask_params)
+		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
 		@pendingtask.user_id=current_user.id #need user id to give review.user something
 		#since reviews belong to users they get the id from current
 		stringofids=params[:pendingtask][:voter_ids]+  " "+params[:pendingtask][:assignee_id]
 		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
 		@pendingtask.threshold=threshold
+		debugger
 		#2 4 5 
 
 
@@ -82,6 +87,22 @@ class PendingtasksController < ApplicationController
 	private
 	def pendingtask_params
 		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :threshold)
+	end
+
+	def delete
+		if params[:id]
+			if Pendingtask.find_by_id(params[:id]).points >= Pendingtask.find_by_id(params[:id]).threshold
+				@user1=User.find(params[:user_id])
+				@pendingtask=Pendingtask.find_by_id(params[:id])
+				assigned=(@pendingtask.assignee_id).to_i
+				@user=User.find_by_id(assigned)
+				@user.currenttasks.create!({text:@pendingtask[:text]})
+				
+				@pendingtask.destroy
+				redirect_to user_path(@user1)
+			end
+		end
+
 	end
 end
 

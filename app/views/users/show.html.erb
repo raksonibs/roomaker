@@ -8,4 +8,17 @@
 <% end %>
 
 <br>
+<br> Accepted:
+<% @acceptedtasks.each do |task| %>
+  <%= task.text %>, <%= task.user_id %>, | <br>
+<% end %>
+
+<br>
+<br> Current:
+<% @currenttasks.each do |task| %>
+  <%= task.text %>, <%= task.user_id %>, | <br>
+<% end %>
+
+
+<br>
 

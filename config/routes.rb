@@ -4,6 +4,7 @@ Roommaker::Application.routes.draw do
   resources :users do
     resources :pendingtasks
     resources :acceptedtasks
+    resources :currenttasks
   end
   root "welcome#index"
 

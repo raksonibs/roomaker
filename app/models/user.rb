@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 	has_secure_password
   has_many :pendingtasks
   has_many :acceptedtasks
+  has_many :currenttasks
+  
 	def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.password="cat"

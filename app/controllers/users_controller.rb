@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     
 		session[:user_id]=@user.id
     @acceptedtasks = @user.acceptedtasks
+    @currenttasks= @user.currenttasks
 	end
 
   private
