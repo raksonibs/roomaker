@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
 
 		if @group.save
 			@group.users << @user
-			redirect_to "/groups"
+			redirect_to "/users/#{current_user.id}"
 		end
 	end
 

@@ -10,7 +10,7 @@ Roommaker::Application.routes.draw do
   #resources :groups
   root "welcome#index"
   get "/users/groups/:user_id"=> "groups#index"
-  get "/users/groups/:user_id/new"=> "groups#new"
+  get "/groups/:user_id/new"=> "groups#new"
   resources :groups
 
   get "welcome_path" => "welcome#index"
