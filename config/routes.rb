@@ -2,7 +2,7 @@ Roommaker::Application.routes.draw do
   get "welcome/index"
   resources :sessions, :only=> [:new,:create,:destroy]
   resources :users do
-    resources :pendingtasks
+    resources :pendingtasks, :except=>[:update,:edit]
     resources :acceptedtasks
     resources :currenttasks
     resources :completedtasks

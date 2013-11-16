@@ -19,12 +19,22 @@ class PendingtasksController < ApplicationController
 		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
 		@pendingtask.threshold=threshold
 		#2 4 5 
+		testing= stringofids.split(" ").map {|i| i.to_i}
 
 
 
 
 		@pendingtask.points=0
-		if @pendingtask.save
+        group=Group.find_by_id(params[:pendingtask][:group])
+        ids_in=false
+        group.users.each do |i|
+           if testing.include? i.id
+           	ids_in=true
+           else
+           	ids_in=false
+           end
+       end
+		if @pendingtask.save && ids_in
 			stringofids.split(" ").each do |id|
 				#check id
 				User.all.each do |user|
@@ -40,9 +50,6 @@ class PendingtasksController < ApplicationController
 					end
 
 
-					#debugger 
-
-
 				end
 
 
@@ -50,7 +57,9 @@ class PendingtasksController < ApplicationController
 			end
 			redirect_to @user
 		else
-			render 'new'
+			@pendingtask.destroy
+			flash[:error]="Didn't work"
+			redirect_to "/users/#{current_user.id}/pendingtasks/new"
 		end
 	end
 

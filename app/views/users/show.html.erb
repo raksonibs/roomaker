@@ -30,12 +30,13 @@
 <p> My Groups: </p>
 
 <% @groups.each do |g| %>
-  <%= g.name %><br>
+  <br><%= g.name %><br>
   <% g.users.each do |u| %>
      <%= u.name %>: 
      <%u.completedtasks.each do |ct| %>
         <% if ct.group ==g.name %>
            <%= 1 %>
+
         <% end %>
      <%end %>
 
