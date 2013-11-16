@@ -25,3 +25,11 @@
 <% @completedtasks.each do |task| %>
   <%= task.text %>, <%= task.completer_id %>, | <br>
 <% end %>
+
+<br>
+<% @groups.each do |g| %>
+  <%= g.name %>
+  <% g.users.each do |u| %>
+     <%= u.name %> <%= u.completedtasks.size %>
+  <% end %>
+<% end %>

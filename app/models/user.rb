@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :acceptedtasks
   has_many :currenttasks
   has_many :completedtasks
+  has_and_belongs_to_many :groups
   
 	def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
