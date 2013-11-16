@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+
+  before_filter :delete_tasks
   def new
   	@user=User.new
   end
@@ -25,4 +27,32 @@ class UsersController < ApplicationController
   def user_params
   	params.require(:user).permit(:email,:password, :password_confirmation, :name)
   end
+
+  def delete_tasks
+    if params[:id]
+      @currentguy=User.find_by_id(current_user.id)
+
+ #     @pendingtask=Pendingtask.find_by_id(params[:id])
+
+ #     assigned = (@pendingtasks.assignee_id).to_i
+
+      @currentguy.pendingtasks.each do |task|
+
+        if task.points >= task.threshold
+          assigned = task.assignee_id.to_i
+          @user = User.find_by_id(assigned)
+          @user.currenttasks.create!({text: task[:text]}) unless @user.currenttasks.include? Currenttask.find_by_text(task[:text])
+
+          votingids = task.voter_ids.split(" ")
+          votingids.each do |id|
+            @user=User.find_by_id(id)
+            @user.acceptedtasks.create!({text: task[:text]}) unless @user.acceptedtasks.include? Acceptedtask.find_by_text(task[:text]) 
+          end
+
+          task.destroy
+        end
+      end
+    end
+  end
+
 end
