@@ -21,6 +21,7 @@ Roommaker::Application.routes.draw do
   get '/users/:user_id/:id/yes' => "pendingtasks#yes"
   get '/users/:user_id/:id/no' => "pendingtasks#no"
   get '/users/:user_id/:id/delete' => "currenttasks#delete"
+  get "/groups/"=> "groups#index"
 
   
   # The priority is based upon order of creation: first created -> highest priority.

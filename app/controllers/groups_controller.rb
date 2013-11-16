@@ -30,11 +30,20 @@ class GroupsController < ApplicationController
 
 	def edit
 		@group = Group.find(params[:id])
+		@user = current_user
+
+		if @group.save
+			@group.users << @user
+			redirect_to "/groups"
+		end
 	end
 
 	def update 
 		@group = Group.find(params[:id])
+		@user = current_user
+
 		if @group.update_attributes(group_params)
+			@group.users << @user
 			redirect_to "/users/#{current_user.id}"
 		else
 			render :edit

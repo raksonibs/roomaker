@@ -5,6 +5,7 @@ class PendingtasksController < ApplicationController
 	def new
 		@user=User.find(params[:user_id])
 		@pendingtask=Pendingtask.new
+		@groups=@user.groups
 	end
 
 	def create
@@ -85,7 +86,7 @@ class PendingtasksController < ApplicationController
 
 	private
 	def pendingtask_params
-		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :threshold)
+		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold)
 	end
 
 	def delete
