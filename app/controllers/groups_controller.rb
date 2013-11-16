@@ -22,12 +22,6 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 	end
 
-	def delete
-		@group = Group.find(params[:id])
-		@group.destroy
-		redirect_to "/users/#{current_user.id}"
-	end
-
 	def edit
 		@group = Group.find(params[:id])
 		@user = current_user
@@ -50,6 +44,11 @@ class GroupsController < ApplicationController
 		end
 	end
 
+	def delete
+		@group = Group.find(params[:id])
+		@group.destroy
+		redirect_to "/users/#{current_user.id}"
+	end
 
 	private
 	def group_params
