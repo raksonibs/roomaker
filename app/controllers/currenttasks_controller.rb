@@ -19,9 +19,29 @@ class CurrenttasksController < ApplicationController
 		end
 	end
 
+	def delete
+		@currentguy = User.find_by_id(current_user.id)
+
+		@currentguy.currenttasks.each do |task|
+			task.user_id
+			@currentguy.completedtasks.create!({text:task[:text],
+				                           completer_id:task[:completer_id]})
+			User.all.each do |user|
+				user.acceptedtasks.each do |atask|
+					if atask[:text]==task[:text]
+						user.completedtasks.create!({text:task[:text],
+				                           completer_id:task[:completer_id]})
+					end
+				end
+			end
+			task.destroy
+		end
+		redirect_to @currentguy
+	end
+
 	private
 	def currenttask_params
-		params.require(:currenttask).permit(:text, :user_id)
+		params.require(:currenttask).permit(:text, :user_id, :completer_id)
 	end
 end
-end
+

@@ -16,9 +16,12 @@
 <br>
 <br> Current:
 <% @currenttasks.each do |task| %>
-  <%= task.text %>, <%= task.user_id %>, | <br>
+  <%= task.text %>, <%= task.user_id %>, | <%= task.completer_id %> <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
 <% end %>
 
-
 <br>
+<br> Completed:
 
+<% @completedtasks.each do |task| %>
+  <%= task.text %>, <%= task.completer_id %>, | <br>
+<% end %>

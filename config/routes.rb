@@ -5,6 +5,7 @@ Roommaker::Application.routes.draw do
     resources :pendingtasks
     resources :acceptedtasks
     resources :currenttasks
+    resources :completedtasks
   end
   root "welcome#index"
 
@@ -15,6 +16,8 @@ Roommaker::Application.routes.draw do
   get '/sessions' => 'sessions#create'
   get '/users/:user_id/:id/yes' => "pendingtasks#yes"
   get '/users/:user_id/:id/no' => "pendingtasks#no"
+  get '/users/:user_id/:id/delete' => "currenttasks#delete"
+
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

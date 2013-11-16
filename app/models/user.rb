@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :pendingtasks
   has_many :acceptedtasks
   has_many :currenttasks
+  has_many :completedtasks
   
 	def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

@@ -21,6 +21,7 @@ class UsersController < ApplicationController
 		session[:user_id]=@user.id
     @acceptedtasks = @user.acceptedtasks
     @currenttasks= @user.currenttasks
+    @completedtasks = @user.completedtasks
 	end
 
   private
@@ -32,16 +33,13 @@ class UsersController < ApplicationController
     if params[:id]
       @currentguy=User.find_by_id(current_user.id)
 
- #     @pendingtask=Pendingtask.find_by_id(params[:id])
-
- #     assigned = (@pendingtasks.assignee_id).to_i
-
       @currentguy.pendingtasks.each do |task|
 
         if task.points >= task.threshold
           assigned = task.assignee_id.to_i
           @user = User.find_by_id(assigned)
-          @user.currenttasks.create!({text: task[:text]}) unless @user.currenttasks.include? Currenttask.find_by_text(task[:text])
+          @user.currenttasks.create!({text: task[:text],
+                                      completer_id:@user.id}) unless @user.currenttasks.include? Currenttask.find_by_text(task[:text])
 
           votingids = task.voter_ids.split(" ")
           votingids.each do |id|
