@@ -27,18 +27,20 @@
 <% end %>
 
 <br>
-<p> My Groups: </p>
+<p> <b>My Groups:</b> </p>
 
 <% @groups.each do |g| %>
   <br><%= g.name %><br>
   <% g.users.each do |u| %>
      <%= u.name %>: 
-     <%u.completedtasks.each do |ct| %>
-        <% if ct.group ==g.name %>
-           <%= 1 %>
+     <% usertotal=0 %>
+     <% u.completedtasks.each do |ct| %>
+        <% if ct.group == g.name %>
+           <% usertotal+=1  %>
 
         <% end %>
      <%end %>
+     <%= usertotal  %>
 
   <% end %>
 <% end %>

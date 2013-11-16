@@ -15,11 +15,12 @@ class PendingtasksController < ApplicationController
 		@pendingtask.user_id=current_user.id #need user id to give review.user something
 		#since reviews belong to users they get the id from current
 		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
-		stringofids=params[:pendingtask][:voter_ids]+  " "+params[:pendingtask][:assignee_id]
+		stringofids=params[:pendingtask][:assignee_id]+" "+params[:pendingtask][:voter_ids]
+		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
 		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
 		@pendingtask.threshold=threshold
 		#2 4 5 
-		testing= stringofids.split(" ").map {|i| i.to_i}
+		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
 
 
 
@@ -34,7 +35,8 @@ class PendingtasksController < ApplicationController
            	ids_in=false
            end
        end
-		if @pendingtask.save && ids_in
+       debugger
+		if @pendingtask.save && ids_in && (@user.id.to_s!=stringofids[-2])
 			stringofids.split(" ").each do |id|
 				#check id
 				User.all.each do |user|

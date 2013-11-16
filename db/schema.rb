@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116082602) do
+ActiveRecord::Schema.define(version: 20131116100959) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20131116082602) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "completer_id"
+    t.string   "group"
   end
 
   create_table "currenttasks", force: true do |t|

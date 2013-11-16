@@ -29,7 +29,7 @@ class CurrenttasksController < ApplicationController
 			User.all.each do |user|
 				user.acceptedtasks.each do |atask|
 					if atask[:text]==task[:text]
-						
+
 
 						user.completedtasks.create!({text:task[:text],
 							               group:task[:group],
