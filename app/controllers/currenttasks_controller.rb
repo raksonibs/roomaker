@@ -25,6 +25,7 @@ class CurrenttasksController < ApplicationController
 		@currentguy.currenttasks.each do |task|
 			task.user_id
 			@currentguy.completedtasks.create!({text:task[:text],
+											group:task[:group],
 				                           completer_id:task[:completer_id]})
 			User.all.each do |user|
 				user.acceptedtasks.each do |atask|
@@ -44,7 +45,7 @@ class CurrenttasksController < ApplicationController
 
 	private
 	def currenttask_params
-		params.require(:currenttask).permit(:text, :user_id, :completer_id)
+		params.require(:currenttask).permit(:text, :user_id, :completer_id, :group)
 	end
 end
 

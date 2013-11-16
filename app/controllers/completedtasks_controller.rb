@@ -20,6 +20,6 @@ class CompletedtasksController < ApplicationController
 
 	private
 	def completedtask_params
-		params.require(:completedtask).permit(:text, :user_id)
+		params.require(:completedtask).permit(:text, :user_id, :group)
 	end
 end

@@ -9,11 +9,11 @@ class PendingtasksController < ApplicationController
 	end
 
 	def create
-		@user=User.find(params[:user_id])
-		@pendingtask=@user.pendingtasks.build(pendingtask_params)
+		@user = User.find(params[:user_id])
+		@pendingtask = @user.pendingtasks.build(pendingtask_params)
 		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
-		@pendingtask.user_id=current_user.id #need user id to give review.user something
-		#since reviews belong to users they get the id from current
+		@pendingtask.user_id=current_user.id #need user id to give pendingtask.user something
+		#since pendingtasks belong to users they get the id from current
 		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
 		stringofids=params[:pendingtask][:assignee_id]+" "+params[:pendingtask][:voter_ids]
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
@@ -23,38 +23,37 @@ class PendingtasksController < ApplicationController
 		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
 
 
-
-
-		@pendingtask.points=0
-        group=Group.find_by_id(params[:pendingtask][:group])
-        ids_in=false
+		@pendingtask.points = 0
+        group = Group.find_by_id(params[:pendingtask][:group])
+        @pendingtask.group = group.name
+        ids_in = []
         group.users.each do |i|
            if testing.include? i.id
-           	ids_in=true
+           	ids_in << true
            else
-           	ids_in=false
+           	ids_in == nil
            end
-       end
-       debugger
-		if @pendingtask.save && ids_in && (@user.id.to_s!=stringofids[-2])
-			stringofids.split(" ").each do |id|
+    	end
+ 
+		if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && (ids_in != nil)
+			#debugger
+				
+				stringofids.split(" ").each do |id|
 				#check id
-				User.all.each do |user|
+					User.all.each do |user|
 					#connects to id condition so not four times
-					if (user.id).to_i==id.to_i
+						if (user.id).to_i == id.to_i
 	
-						User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
+							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
 						                                       		assignee_id:@pendingtask[:assignee_id],
 						                                       		voter_ids:@pendingtask[:voter_ids],
 						                                       		points:@pendingtask[:points],
+						                                       		group:@pendingtask[:group],
 						                                       		threshold:@pendingtask[:threshold]
 						                                        })
+						end
 					end
-
-
-				end
-
-
+				#end
 			  #cat.pendingtasks.new
 			end
 			redirect_to @user
@@ -74,7 +73,6 @@ class PendingtasksController < ApplicationController
 				val=user.pendingtasks.find_by_text(@pendingtask)
 				val.points+=1 
 				val.save
-
 			end
 		end
 

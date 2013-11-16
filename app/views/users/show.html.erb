@@ -2,7 +2,7 @@
 
 <br> Pending:
 <% @pendingtasks.each do |task| %>
-  <%= task.text %>, <%= task.voter_ids %>, <%= task.assignee_id %> | <%= task.threshold %> | <%= task.group %>
+  <%= task.text %>, <%= task.voter_ids %>, <%= task.assignee_id %> | <%= task.group %>
   <p> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> <%=task.points %></p>
 <p> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> </p>  <br>
 <% end %>
