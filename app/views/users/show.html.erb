@@ -10,28 +10,34 @@
 <br>
 <br> Accepted:
 <% @acceptedtasks.each do |task| %>
-  <%= task.text %>, <%= task.user_id %>, | <br>
+  <%= task.text %>, <%= task.user_id %>, | <%= task.group %> <br>
 <% end %>
 
 <br>
 <br> Current:
 <% @currenttasks.each do |task| %>
-  <%= task.text %>, <%= task.user_id %>, | <%= task.completer_id %> <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
+  <%= task.text %>, <%= task.user_id %>, | <%= task.completer_id %> | <%= task.group %> | <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
 <% end %>
 
 <br>
 <br> Completed:
 
 <% @completedtasks.each do |task| %>
-  <%= task.text %>, <%= task.completer_id %>, | <br>
+  <%= task.group %> <%= task.text %>, <%= task.completer_id %>, |  <br>
 <% end %>
 
 <br>
 <p> My Groups: </p>
 
 <% @groups.each do |g| %>
-  <%= g.name %>
+  <%= g.name %><br>
   <% g.users.each do |u| %>
-     <%= u.name %> <%= u.completedtasks.size %>
+     <%= u.name %>: 
+     <%u.completedtasks.each do |ct| %>
+        <% if ct.group ==g.name %>
+           <%= 1 %>
+        <% end %>
+     <%end %>
+
   <% end %>
 <% end %>
