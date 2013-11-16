@@ -10,7 +10,10 @@ class PendingtasksController < ApplicationController
 		@pendingtask.user_id=current_user.id #need user id to give review.user something
 		#since reviews belong to users they get the id from current
 		stringofids=params[:pendingtask][:voter_ids]+  " "+params[:pendingtask][:assignee_id]
+		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
+		@pendingtask.threshold=threshold
 		#2 4 5 
+
 
 
 		@pendingtask.points=0
@@ -24,7 +27,8 @@ class PendingtasksController < ApplicationController
 						User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
 						                                       		assignee_id:@pendingtask[:assignee_id],
 						                                       		voter_ids:@pendingtask[:voter_ids],
-						                                       		points:@pendingtask[:points]
+						                                       		points:@pendingtask[:points],
+						                                       		threshold:@pendingtask[:threshold]
 						                                        })
 					end
 
@@ -77,7 +81,7 @@ class PendingtasksController < ApplicationController
 
 	private
 	def pendingtask_params
-		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids)
+		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :threshold)
 	end
 end
 
