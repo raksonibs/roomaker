@@ -7,7 +7,11 @@ Roommaker::Application.routes.draw do
     resources :currenttasks
     resources :completedtasks
   end
+  #resources :groups
   root "welcome#index"
+  get "/users/groups/:user_id"=> "groups#index"
+  get "/users/groups/:user_id/new"=> "groups#new"
+  resources :groups
 
   get "welcome_path" => "welcome#index"
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
