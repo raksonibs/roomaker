@@ -66,17 +66,17 @@ class PendingtasksController < ApplicationController
 	end
 
 	def yes
-		@user=User.find(params[:user_id])
-		@pendingtask=Pendingtask.find_by_id(params[:id]).text
+		@user=User.find(params[:user_id]) #gets current user
+		@pendingtask=Pendingtask.find_by_id(params[:id]).text #gets task they want to vote on
 		User.all.each do |user|
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
 				val.points+=1 
-				val.save
+				val.save #for each user's this task, the vote goes up by one now
 			end
 		end
-
+        #now need to make the yes invisible, for just this user
 		redirect_to @user
 	end
 
@@ -92,6 +92,7 @@ class PendingtasksController < ApplicationController
 
 			end
 		end
+		#same as above, but need to make the yes invisible just for this user
 
 		redirect_to @user
 	end
