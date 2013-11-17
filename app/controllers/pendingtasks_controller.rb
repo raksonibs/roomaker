@@ -34,6 +34,7 @@ class PendingtasksController < ApplicationController
            	ids_in == nil
            end
     	end
+
  
 		if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && (ids_in != nil)
 			#debugger
