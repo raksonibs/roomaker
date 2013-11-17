@@ -74,6 +74,7 @@ class PendingtasksController < ApplicationController
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
 				val.points+=1 
+				val.points+=1 if val.points==0
 				val.save #for each user's this task, the vote goes up by one now
 			end
 		end
@@ -91,7 +92,8 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				val.points-=1 
+				val.points-=1
+				val.points-=1 if val.points==0 
 				val.save
 
 			end
