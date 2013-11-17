@@ -11,7 +11,7 @@ class GroupsController < ApplicationController
 		@group = Group.new(group_params)
 		if @group.save
 			@user=current_user
-			@group.users << @user
+			@group.users << @user unless @group.users.include? @user
 			redirect_to "/users/#{current_user.id}"
 		else
 			render :new
@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
 		@user = current_user
 
 		if @group.save
-			@group.users << @user
+			@group.users << @user unless @group.users.include? @user
 			redirect_to "/users/#{current_user.id}"
 		end
 	end
@@ -37,7 +37,7 @@ class GroupsController < ApplicationController
 		@user = current_user
 
 		if @group.update_attributes(group_params)
-			@group.users << @user
+			@group.users << @user unless @group.users.include? @user
 			redirect_to "/users/#{current_user.id}"
 		else
 			render :edit

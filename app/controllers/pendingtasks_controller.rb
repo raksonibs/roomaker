@@ -77,6 +77,7 @@ class PendingtasksController < ApplicationController
 			end
 		end
         #now need to make the yes invisible, for just this user
+        session[{@pendingtask=>"yes"}]
 		redirect_to @user
 	end
 
@@ -93,6 +94,7 @@ class PendingtasksController < ApplicationController
 			end
 		end
 		#same as above, but need to make the yes invisible just for this user
+		session[{@pendingtask=>"no"}]
 
 		redirect_to @user
 	end
