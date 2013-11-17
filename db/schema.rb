@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116100959) do
+ActiveRecord::Schema.define(version: 20131117185353) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 20131116100959) do
     t.integer  "threshold"
     t.string   "group"
   end
+
+  create_table "sessions", force: true do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: true do |t|
     t.string   "name"

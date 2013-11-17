@@ -6,8 +6,9 @@
   <% unless session[:yes]==task %>
   <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> <%=task.points %></p>
   <% end %>
+  <%= session[:yes].inspect %>
   <% unless session[:no]==task %>
-<p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> </p>  <br>
+<p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> </p> <%=task.points %>  <br>
 <% end %>
 <%= session[:no].inspect %>
 <% end %>
