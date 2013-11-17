@@ -36,7 +36,7 @@
      <% usertotal=0 %>
      <% u.completedtasks.each do |ct| %>
         <% if ct.group == g.name %>
-           <% usertotal+=1  %>
+           <% usertotal+=1 if u.id==ct.completer_id %>
 
         <% end %>
      <%end %>
