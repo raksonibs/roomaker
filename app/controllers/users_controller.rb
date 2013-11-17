@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
       @currentguy.pendingtasks.each do |task|
 
-        if task.points == task.negthreshold
+        if task.points <= task.negthreshold
           task.destroy
         end
 
