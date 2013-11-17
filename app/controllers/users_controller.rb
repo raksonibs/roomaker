@@ -36,6 +36,10 @@ class UsersController < ApplicationController
 
       @currentguy.pendingtasks.each do |task|
 
+        if task.points == task.negthreshold
+          task.destroy
+        end
+
         if task.points >= task.threshold
           assigned = task.assignee_id.to_i
           @user = User.find_by_id(assigned)
@@ -52,6 +56,8 @@ class UsersController < ApplicationController
 
           task.destroy
         end
+
+
       end
     end
   end

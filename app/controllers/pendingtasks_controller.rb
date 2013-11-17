@@ -18,7 +18,9 @@ class PendingtasksController < ApplicationController
 		stringofids=params[:pendingtask][:assignee_id]+" "+params[:pendingtask][:voter_ids]
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
 		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
+		negthreshold=threshold*-1
 		@pendingtask.threshold=threshold
+		@pendingtask.negthreshold=negthreshold
 		#2 4 5 
 		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
 
@@ -50,7 +52,8 @@ class PendingtasksController < ApplicationController
 						                                       		voter_ids:@pendingtask[:voter_ids],
 						                                       		points:@pendingtask[:points],
 						                                       		group:@pendingtask[:group],
-						                                       		threshold:@pendingtask[:threshold]
+						                                       		threshold:@pendingtask[:threshold],
+						                                       		negthreshold:@pendingtask[:negthreshold]
 						                                        })
 						end
 					end

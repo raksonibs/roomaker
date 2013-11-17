@@ -2,15 +2,13 @@
 
 <br> Pending:
 <% @pendingtasks.each do |task| %>
-  <%= task.text %>, <%= task.voter_ids %>, <%= task.assignee_id %> | <%= task.group %>
+  <%= task.text %>, Voter ids: <%= task.voter_ids %>, WHo has to do it: <%= task.assignee_id %> | <%= task.group %> PLus/mingus threshold <%= task.threshold %>
   <% unless session[:yes]==task %>
   <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> <%=task.points %></p>
   <% end %>
-  <%= session[:yes].inspect %>
   <% unless session[:no]==task %>
-<p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> </p> <%=task.points %>  <br>
+<p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> <%=task.points %></p>  <br>
 <% end %>
-<%= session[:no].inspect %>
 <% end %>
 
 
