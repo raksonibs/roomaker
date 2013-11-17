@@ -35,12 +35,19 @@ class UsersController < ApplicationController
       @currentguy=User.find_by_id(current_user.id)
 
       @currentguy.pendingtasks.each do |task|
+        @totalyes=0
+        @totalno=0
+        task.pendingvotes.each do |val|
+          @totalyes+=1 if val.text=="yes"
+          @totalno+=1 if val.text=="no"
+        end
 
-        if task.points <= task.negthreshold
+
+        if @totalno >= -1*task.negthreshold
           task.destroy
         end
 
-        if task.points >= task.threshold
+        if @totalyes >= task.threshold
           assigned = task.assignee_id.to_i
           @user = User.find_by_id(assigned)
 

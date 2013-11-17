@@ -76,13 +76,18 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				val.points+=1 
-				val.points+=1 if val.points==0
+				if session[:no] && session[:lastuser]==@user
+					val.pendingvotes.last.destroy
+					val.pendingvotes << Pendingvote.new({text:"yes"})
+				else
+					val.pendingvotes << Pendingvote.new({text:"yes"})
+				end
 				val.save #for each user's this task, the vote goes up by one now
 			end
 		end
         #now need to make the yes invisible, for just this user
         session[:yes]=Pendingtask.find_by_id(params[:id])
+        session[:lastuser]=@user
         session[:no]=nil
 
 		redirect_to @user
@@ -95,8 +100,13 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				val.points-=1
-				val.points-=1 if val.points==0 
+				if session[:yes] && session[:lastuser]==@user
+					val.pendingvotes.last.destroy
+					val.pendingvotes << Pendingvote.new({text:"no"})
+
+				else
+					val.pendingvotes << Pendingvote.new({text:"no"})
+				end
 				val.save
 
 			end
@@ -104,6 +114,7 @@ class PendingtasksController < ApplicationController
 		#same as above, but need to make the yes invisible just for this user
 		session[:no]=Pendingtask.find_by_id(params[:id])
 		session[:yes]=nil
+		session[:lastuser]=@user
 
 		redirect_to @user
 	end
