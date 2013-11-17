@@ -66,6 +66,7 @@ class PendingtasksController < ApplicationController
 	end
 
 	def yes
+
 		@user=User.find(params[:user_id]) #gets current user
 		@pendingtask=Pendingtask.find_by_id(params[:id]).text #gets task they want to vote on
 		User.all.each do |user|
@@ -77,7 +78,9 @@ class PendingtasksController < ApplicationController
 			end
 		end
         #now need to make the yes invisible, for just this user
-        session[{@pendingtask=>"yes"}]
+        session[:yes]=Pendingtask.find_by_id(params[:id])
+        session[:no]=nil
+
 		redirect_to @user
 	end
 
@@ -94,7 +97,8 @@ class PendingtasksController < ApplicationController
 			end
 		end
 		#same as above, but need to make the yes invisible just for this user
-		session[{@pendingtask=>"no"}]
+		session[:no]=Pendingtask.find_by_id(params[:id])
+		session[:yes]=nil
 
 		redirect_to @user
 	end

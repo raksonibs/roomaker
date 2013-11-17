@@ -3,13 +3,17 @@
 <br> Pending:
 <% @pendingtasks.each do |task| %>
   <%= task.text %>, <%= task.voter_ids %>, <%= task.assignee_id %> | <%= task.group %>
-  <% unless session[task]=="yes" %>
+  <% unless session[:yes]==task %>
   <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> <%=task.points %></p>
   <% end %>
-  <% unless session[task]=="no" %>
+  <% unless session[:no]==task %>
 <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> </p>  <br>
 <% end %>
+<%= session[:no].inspect %>
 <% end %>
+
+
+<br>
 
 <br>
 <br> Accepted:
