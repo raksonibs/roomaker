@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-#  before_destroy :load_pendingtask
   before_filter :delete_tasks
 
   def new
@@ -67,7 +66,4 @@ class UsersController < ApplicationController
     end
   end
 
-#  def load_pendingtask
-#    @pendingtask = Pendingtask.find(params[:pendingtask_id])
-#  end
 end
