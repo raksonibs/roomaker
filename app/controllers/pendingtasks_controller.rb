@@ -25,7 +25,8 @@ class PendingtasksController < ApplicationController
 		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
 
 
-    @pendingtask.points = 0
+    	@pendingtask.points = 0
+
         group = Group.find_by_id(params[:pendingtask][:group])
         @pendingtask.group = group.name
         ids_in = []
@@ -33,18 +34,19 @@ class PendingtasksController < ApplicationController
            if testing.include?(@pendingtask.assignee_id)
             ids_in << true
            else
-            ids_in == nil
+            ids_in << false
            end
       end
 
- 
-    if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && (ids_in == true)
+ 	
+    if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && !(ids_in.any?{|c| c==false})
 				
 				stringofids.split(" ").each do |id|
 				#check id
 					User.all.each do |user|
 					#connects to id condition so not four times
-						if (user.id).to_i == id.to_i && !(user.id == params[:pendingtask][:assignee_id].to_i)
+					debugger
+						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
 						                                       		assignee_id:@pendingtask[:assignee_id],
