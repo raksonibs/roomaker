@@ -69,11 +69,32 @@ class PendingtasksController < ApplicationController
 		end
 	end
 
-  def destroy
-    @user=User.find(params[:user_id])
-    @pendingtask = Pendingtask.find_by_id(@user.pendingtasks.last.id)
-    @pendingtask.delete
-    redirect_to @user
+	def destroy
+    if params[:id]
+      @usernow=User.find(params[:user_id])
+      @pendingtask = Pendingtask.find_by_id(params[:id])
+
+      assignedtask = @pendingtask.assignee_id.to_i
+      @userA = User.find_by_id(assignedtask)
+        @userA.pendingtasks.each do |task|
+          if task[:text] == @pendingtask[:text]
+            task.delete
+          end
+        end
+
+      votertask = @pendingtask.voter_ids.split(" ")
+      votertask.each do |id|
+        @voter = User.find_by_id(id)
+        @voter.pendingtasks.each do |task|
+          if task[:text] == @pendingtask[:text]
+            task.delete
+          end
+        end
+      end
+
+      @pendingtask.delete
+      redirect_to user_path(@usernow)
+    end
   end
 
 	def yes
