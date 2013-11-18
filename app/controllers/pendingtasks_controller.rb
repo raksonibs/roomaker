@@ -21,6 +21,7 @@ class PendingtasksController < ApplicationController
 		negthreshold=threshold*-1
 		@pendingtask.threshold=threshold
 		@pendingtask.negthreshold=negthreshold
+		@pendingtask.filler_id=current_user.id
 		#2 4 5 
 		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
 
@@ -53,7 +54,8 @@ class PendingtasksController < ApplicationController
 						                                       		points:@pendingtask[:points],
 						                                       		group:@pendingtask[:group],
 						                                       		threshold:@pendingtask[:threshold],
-						                                       		negthreshold:@pendingtask[:negthreshold]
+						                                       		negthreshold:@pendingtask[:negthreshold],
+						                                       		filler_id:@pendingtask[:filler_id]
 						                                        })
 						end
 					end
@@ -130,7 +132,7 @@ class PendingtasksController < ApplicationController
 
 	private
 	def pendingtask_params
-		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold)
+		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold, :filler_id)
 	end
 
 	def delete

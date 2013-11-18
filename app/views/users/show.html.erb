@@ -3,7 +3,12 @@
 <br> Pending:
 <% @pendingtasks.each do |task| %>
   <%= task.text %>, Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
-  <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
+  <% if current_user.id == task.filler_id%>
+    <%= task.user_id %> Guy who filled out form <br>
+    <%= current_user.id %> Guy right now. Only top guy should see it <br>
+
+    <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
+  <% end %>
   <% unless session[:yes]==task %>
     <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> Number of people who said yes: <%= @totalyes %></p>
   <% end %>
