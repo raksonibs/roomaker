@@ -45,7 +45,7 @@ class PendingtasksController < ApplicationController
 				#check id
 					User.all.each do |user|
 					#connects to id condition so not four times
-					debugger
+
 						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
@@ -77,7 +77,7 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				if session[:no] && session[:lastuser]==@user
+				if session[:no]==val && session[:lastuser]==@user
 					val.pendingvotes.last.destroy
 					val.pendingvotes << Pendingvote.new({text:"yes"})
 				else
@@ -101,7 +101,7 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				if session[:yes] && session[:lastuser]==@user
+				if session[:yes]==val && session[:lastuser]==@user
 					val.pendingvotes.last.destroy
 					val.pendingvotes << Pendingvote.new({text:"no"})
 
