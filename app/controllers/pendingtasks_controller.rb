@@ -45,7 +45,6 @@ class PendingtasksController < ApplicationController
 				#check id
 					User.all.each do |user|
 					#connects to id condition so not four times
-					debugger
 						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
@@ -68,6 +67,13 @@ class PendingtasksController < ApplicationController
 			redirect_to "/users/#{current_user.id}/pendingtasks/new"
 		end
 	end
+
+  def destroy
+    @user=User.find(params[:user_id])
+    @pendingtask = Pendingtask.find_by_id(@user.pendingtasks.last.id)
+    @pendingtask.delete
+    redirect_to @user
+  end
 
 	def yes
 
