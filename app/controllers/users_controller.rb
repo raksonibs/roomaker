@@ -41,6 +41,7 @@ class UsersController < ApplicationController
           @totalyes+=1 if val.text=="yes"
           @totalno+=1 if val.text=="no"
           @result[val.pendingtask_id] = [@totalyes,@totalno]
+
         end
 
 

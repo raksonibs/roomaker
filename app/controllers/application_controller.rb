@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   end
 
   def session_is
-    session[:yes]=[] if session[:yes]==nil
-    session[:no]=[] if session[:no]==nil
+    session[:yes]=[] if session[:yes]==nil 
+    session[:no]=[] if session[:no]==nil 
 
   end
 

@@ -105,7 +105,7 @@ class PendingtasksController < ApplicationController
 
 			if user.pendingtasks.find_by_text(@pendingtask)
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				if session[:no]==val && session[:lastuser]==@user
+				if session[:no].last==val && session[:lastuser]==@user
 					val.pendingvotes.last.destroy
 					val.pendingvotes << Pendingvote.new({text:"yes"})
 				else
@@ -130,10 +130,13 @@ class PendingtasksController < ApplicationController
 		User.all.each do |user|
 
 			if user.pendingtasks.find_by_text(@pendingtask)
+
 				val=user.pendingtasks.find_by_text(@pendingtask)
-				if session[:yes]==val && session[:lastuser]==@user
+
+				if session[:yes].last==val && session[:lastuser]==@user
 					val.pendingvotes.last.destroy
 					val.pendingvotes << Pendingvote.new({text:"no"})
+
 
 				else
 					val.pendingvotes << Pendingvote.new({text:"no"})
@@ -155,17 +158,3 @@ class PendingtasksController < ApplicationController
 		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold, :filler_id)
 	end
 end
-
-=begin
-@cat=User.find_by_id(id)
-			  @pending=@pendingtask
-			  @pending.user_id=id.to_i
-			  @cat.pendingtasks.create!({text:@pending[:text], 
-			  	                           id:@pending[:id],
-			  	                           user_id:@pending[:user_id],
-			  	                           assignee_id:@pending[:assignee_id],
-			  	                           voter_ids:@pending[:voter_ids],
-			  	                           created_at:@pending[:created_at],
-			  	                           updated_at:@pending[:updated_at],
-			  	                           points:@pending[:points]})
-=end			  	                   
