@@ -1,6 +1,5 @@
 class PendingtasksController < ApplicationController
 
-	before_filter :delete
 
 	def new
 		@user=User.find(params[:user_id])
@@ -133,36 +132,6 @@ class PendingtasksController < ApplicationController
 	private
 	def pendingtask_params
 		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold, :filler_id)
-	end
-
-	def delete
-		if params[:id]
-			if Pendingtask.find_by_id(params[:id]).points >= Pendingtask.find_by_id(params[:id]).threshold
-				@user1=User.find(params[:user_id])
-
-				@pendingtask=Pendingtask.find_by_id(params[:id])
-				assigned=(@pendingtask.assignee_id).to_i
-				@user=User.find_by_id(assigned)
-				@user.currenttasks.create!({text:@pendingtask[:text]})
-				
-				votingids=@pendingtask.voter_ids.split(" ")
-				votingids.each do |id|
-					@user3=User.find_by_id(id)
-					@user3.acceptedtasks.create!({text:@pendingtask[:text]})
-					@user3.pendingtasks.each do |task| 
-
-						if task[:text]==@pendingtask[:text]
-							task.delete
-						end
-					end
-				end
-
-
-				@pendingtask.destroy
-				redirect_to user_path(@user1)
-			end
-		end
-
 	end
 end
 

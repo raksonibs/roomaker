@@ -33,21 +33,24 @@ class UsersController < ApplicationController
   def delete_tasks
     if params[:id]
       @currentguy=User.find_by_id(current_user.id)
-
+      @result={}
       @currentguy.pendingtasks.each do |task|
         @totalyes=0
         @totalno=0
         task.pendingvotes.each do |val|
           @totalyes+=1 if val.text=="yes"
           @totalno+=1 if val.text=="no"
+          @result[val.pendingtask_id] = [@totalyes,@totalno]
         end
 
 
-        if @totalno >= -1*task.negthreshold
+        unless @result[task.id]==nil
+
+        if @result[task.id][-1] >= -1*task.negthreshold
           task.destroy
         end
 
-        if @totalyes >= task.threshold
+        if @result[task.id][0] >= task.threshold
           assigned = task.assignee_id.to_i
           @user = User.find_by_id(assigned)
 
@@ -59,10 +62,16 @@ class UsersController < ApplicationController
           votingids.each do |id|
             @user=User.find_by_id(id)
             @user.acceptedtasks.create!({text: task[:text], group: task[:group]}) unless @user.acceptedtasks.include? Acceptedtask.find_by_text(task[:text]) 
+ 
           end
+          debugger
           task.destroy
         end
+
+          
+        end
       end
+
     end
   end
 
