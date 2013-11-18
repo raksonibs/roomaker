@@ -116,9 +116,9 @@ class PendingtasksController < ApplicationController
 			end
 		end
         #now need to make the yes invisible, for just this user
-        session[:yes]=Pendingtask.find_by_id(params[:id])
+        session[:yes] << Pendingtask.find_by_id(params[:id])
         session[:lastuser]=@user
-        session[:no]=nil
+        session[:no].delete_at(-1) unless session[:no].last==nil
 
 		redirect_to @user
 
@@ -143,8 +143,8 @@ class PendingtasksController < ApplicationController
 			end
 		end
 		#same as above, but need to make the yes invisible just for this user
-		session[:no]=Pendingtask.find_by_id(params[:id])
-		session[:yes]=nil
+		session[:no] << Pendingtask.find_by_id(params[:id])
+		session[:yes].delete_at(-1) unless session[:yes].last==nil
 		session[:lastuser]=@user
 
 		redirect_to @user

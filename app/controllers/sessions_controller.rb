@@ -10,6 +10,8 @@ class SessionsController < ApplicationController
         session[:user_id] =user.id
         render "welcome/index"
         flash[:notice] = "Logged in!"
+        session[:yes]=[]
+        session[:no]=[]
       else
         flash.now[:alert] = "Invalid"
         render "new"

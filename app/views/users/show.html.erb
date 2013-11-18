@@ -8,16 +8,18 @@
 
     <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
   <% end %>
-  <% unless session[:yes]==task %>
+  <% unless session[:yes].include? task %>
     <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> Number of people who said yes: <%= @result[task.id]==nil ? 0 : @result[task.id][0] %></p>
   <% end %>
-  <% unless session[:no]==task %>
+  <% unless session[:no].include? task %>
     <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> Number of people who said no: <%= @result[task.id]==nil ? 0 : @result[task.id][-1]%></p>  <br>
   <% end %>
 <% end %>
-<%= @result.inspect %> Values for the task and its totalyes and no for each <br>
-<%= session[:yes].inspect %> YES ONE<br> 
-<%= session[:no].inspect %>   NO ONE
+<br>
+<%= @result.inspect %> Values for the task and its totalyes and no for each <br><br>
+<br>
+YES ONE:<%= session[:yes].inspect %><br> <br>
+NO ONE:<%= session[:no].inspect %>  <br>
 
 
 

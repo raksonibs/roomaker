@@ -47,6 +47,7 @@ class UsersController < ApplicationController
         unless @result[task.id]==nil
 
         if @result[task.id][-1] >= -1*task.negthreshold
+
           task.destroy
         end
 
@@ -64,6 +65,7 @@ class UsersController < ApplicationController
             @user.acceptedtasks.create!({text: task[:text], group: task[:group]}) unless @user.acceptedtasks.include? Acceptedtask.find_by_text(task[:text]) 
  
           end
+        
           task.destroy
         end
 
