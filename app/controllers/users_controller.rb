@@ -64,7 +64,6 @@ class UsersController < ApplicationController
             @user.acceptedtasks.create!({text: task[:text], group: task[:group]}) unless @user.acceptedtasks.include? Acceptedtask.find_by_text(task[:text]) 
  
           end
-          debugger
           task.destroy
         end
 

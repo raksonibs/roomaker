@@ -2,8 +2,7 @@
 
 <br> Pending:
 <% @pendingtasks.each do |task| %>
-  <%= task.text %>, Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
-  <%= @result[task.id] %> looking for task id to match that vote [0,1,0]or whatever ten count ones
+  <%= task.text %>, TASK'S ID <%= task.id %> Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
   <% if current_user.id == task.filler_id%>
 
 
@@ -17,6 +16,8 @@
   <% end %>
 <% end %>
 <%= @result.inspect %> Values for the task and its totalyes and no for each <br>
+<%= session[:yes].inspect %> YES ONE<br> 
+<%= session[:no].inspect %>   NO ONE
 
 
 
