@@ -45,6 +45,10 @@ class PendingtasksController < ApplicationController
 				#check id
 					User.all.each do |user|
 					#connects to id condition so not four times
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5165dcba517cacca91590f36c9c1e550227abfdd
 						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-
   before_filter :delete_tasks
+
   def new
   	@user=User.new
   end
@@ -60,11 +60,8 @@ class UsersController < ApplicationController
             @user=User.find_by_id(id)
             @user.acceptedtasks.create!({text: task[:text], group: task[:group]}) unless @user.acceptedtasks.include? Acceptedtask.find_by_text(task[:text]) 
           end
-
           task.destroy
         end
-
-
       end
     end
   end
