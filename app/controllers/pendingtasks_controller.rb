@@ -84,6 +84,7 @@ class PendingtasksController < ApplicationController
 					val.pendingvotes << Pendingvote.new({text:"yes"})
 				end
 				val.save #for each user's this task, the vote goes up by one now
+
 			end
 		end
         #now need to make the yes invisible, for just this user
@@ -92,6 +93,7 @@ class PendingtasksController < ApplicationController
         session[:no]=nil
 
 		redirect_to @user
+
 	end
 
 	def no
