@@ -149,6 +149,7 @@ class PendingtasksController < ApplicationController
 		session[:no] << Pendingtask.find_by_id(params[:id])
 		session[:yes].delete_at(-1) unless session[:yes].last==nil
 		session[:lastuser]=@user
+		
 
 		redirect_to @user
 	end
