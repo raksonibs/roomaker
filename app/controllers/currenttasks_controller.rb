@@ -25,10 +25,13 @@ class CurrenttasksController < ApplicationController
 		#currenttask has valid, belongs to current. so if valid exits for currenttask
 		#and guy clicked delete, only then deletes
 		@currentguy.currenttasks.each do |task|
-			task.user_id
-			@currentguy.completedtasks.create!({text:task[:text],
-											group:task[:group],
-				                           completer_id:task[:completer_id]})
+			# check task, taskid, and the guy below
+
+			if task.id == params[:id].to_i
+				@currentguy.completedtasks.create!({text:task[:text],
+												group:task[:group],
+				                           		completer_id:task[:completer_id]})
+			
 			#double here on the other user
 			User.all.each do |user|
 				user.acceptedtasks.each do |atask|
@@ -40,11 +43,15 @@ class CurrenttasksController < ApplicationController
 				                           completer_id:task[:completer_id]})
 						atask.destroy
 					end
+
 				end
 			end
+
 			task.destroy
+			redirect_to @currentguy
+			end
 		end
-		redirect_to @currentguy
+		
 	end
 
 	private
