@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+  before_filter :delete_tasks
 
   def new
   	@user=User.new
@@ -34,27 +34,17 @@ class UsersController < ApplicationController
   end
 
   def delete_tasks
-    if params[:id]
-      @currentguy=User.find_by_id(current_user.id)
-      @result={}
-      @currentguy.pendingtasks.each do |task|
-        @totalyes=0
-        @totalno=0
-        task.pendingvotes.each do |val|
-          @totalyes+=1 if val.text=="yes"
-          @totalno+=1 if val.text=="no"
-          @result[val.pendingtask_id] = [@totalyes,@totalno]
-
-        end
-
-
-        unless @result[task.id]==nil
-
+    @currentguy=User.find_by_id(current_user.id)
+    @result={}
+    @pendingtasks=Pendingtask.all
+    @pendingtasks.each do |task|
+      @totalyes=task.nods.size
+      @totalno=task.nos.size
+      @result[task.id] = [@totalyes,@totalno]
+      unless @result[task.id]==nil
         if @result[task.id][-1] >= -1*task.negthreshold
-
           task.destroy
         end
-
         if @result[task.id][0] >= task.threshold
           assigned = task.assignee_id.to_i
           @user = User.find_by_id(assigned)
@@ -72,11 +62,7 @@ class UsersController < ApplicationController
         
           task.destroy
         end
-
-          
-        end
       end
-
     end
   end
 

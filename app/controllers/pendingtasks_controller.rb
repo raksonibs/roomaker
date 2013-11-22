@@ -36,7 +36,6 @@ class PendingtasksController < ApplicationController
             ids_in << false
            end
       end
-      debugger
  	
     if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && !(ids_in.any?{|c| c==false})
 				
@@ -47,7 +46,6 @@ class PendingtasksController < ApplicationController
 						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							@pendingtask.users << user
-							debugger
 						end
 					end
 				#end
@@ -55,34 +53,17 @@ class PendingtasksController < ApplicationController
 			end
 			redirect_to @user
 		else
-			@pendingtask.destroy
+
 			flash[:error]="Didn't work"
-			redirect_to "/users/#{current_user.id}/pendingtasks/new"
+			render 'new'
+			
 		end
 	end
 
 	def destroy
     if params[:id]
-      @usernow=User.find(params[:user_id])
+    	@usernow=current_user
       @pendingtask = Pendingtask.find_by_id(params[:id])
-
-      assignedtask = @pendingtask.assignee_id.to_i
-      @userA = User.find_by_id(assignedtask)
-        @userA.pendingtasks.each do |task|
-          if task[:text] == @pendingtask[:text]
-            task.delete
-          end
-        end
-
-      votertask = @pendingtask.voter_ids.split(" ")
-      votertask.each do |id|
-        @voter = User.find_by_id(id)
-        @voter.pendingtasks.each do |task|
-          if task[:text] == @pendingtask[:text]
-            task.delete
-          end
-        end
-      end
 
       @pendingtask.delete
       redirect_to user_path(@usernow)
@@ -96,7 +77,7 @@ class PendingtasksController < ApplicationController
         @nod=@pendingtask.nods << Nod.new({amount:1,
         									:user_id=> @user.id})
         @user.nos.each do |no|
-        	no.delete if no.pendingtask.id==@pendingtask.id
+        	no.delete if no.pendingtask_id==@pendingtask.id
         end
 
 		redirect_to @user
@@ -110,7 +91,7 @@ class PendingtasksController < ApplicationController
         								:user_id=>@user.id})
 		
 		 @user.nods.each do |nod|
-        	nod.delete if nod.pendingtask.id==@pendingtask.id
+        	nod.delete if nod.pendingtask_id==@pendingtask.id
         end
 
 		redirect_to @user

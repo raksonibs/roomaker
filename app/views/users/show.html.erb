@@ -6,7 +6,7 @@
   <%= task.text %>, TASK'S ID <%= task.id %> Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
   <% if current_user.id == task.filler_id%>
 
-    <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
+    <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
   <% end %>
   <br>
   Number of yeses: <%= task.nods.size %><br>
