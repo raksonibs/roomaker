@@ -1,9 +1,19 @@
 <%= form_for @pendingtask do |f| %>
+<% if @pendingtask.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @pendingtask.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   Task needing completion:
   <%= f.text_area :text %>
   <br>
   Type the full name of who you want complete the task:
-  
+
   <%= f.text_field :assignee_id %>
 
   <br>

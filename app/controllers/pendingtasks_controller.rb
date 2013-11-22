@@ -5,6 +5,7 @@ class PendingtasksController < ApplicationController
 		@user=User.find(current_user.id)
 		@pendingtask=Pendingtask.new
 		@groups=@user.groups
+
 		@groups.each do |group|
 		end
 	end
@@ -39,6 +40,8 @@ class PendingtasksController < ApplicationController
 	#pendingtask.users << user unless @user=@selfassigner (cause already made) && user.id==@selfassinger.id (not sure about this one)
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
 		threshold=((@voting_ids.size.to_f)/2.0).ceil #need to worry about if even
+		threshold= @voting_ids.size%2==0 ? threshold+1 : threshold
+		debugger
 		negthreshold=threshold*-1
 		@pendingtask.threshold=threshold
 		@pendingtask.negthreshold=negthreshold
@@ -64,7 +67,7 @@ class PendingtasksController < ApplicationController
 		else
 
 			flash[:error]="Didn't work"
-			render 'new'
+			redirect_to new_pendingtask_path
 			
 		end
 
