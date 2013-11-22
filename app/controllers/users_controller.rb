@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :delete_tasks
+  
 
   def new
   	@user=User.new
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
    def show
 		@user=User.find(params[:id])
-    @pendingtasks=@user.pendingtasks
+    @pendingtasks=Pendingtask.all
     
 		session[:user_id]=@user.id
     @acceptedtasks = @user.acceptedtasks

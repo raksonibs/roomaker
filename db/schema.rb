@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122001054) do
+ActiveRecord::Schema.define(version: 20131122020440) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 20131122001054) do
 
   create_table "pendingtasks", force: true do |t|
     t.string   "text"
-    t.integer  "user_id"
     t.integer  "assignee_id"
     t.string   "voter_ids"
     t.datetime "created_at"
@@ -110,13 +109,7 @@ ActiveRecord::Schema.define(version: 20131122001054) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.integer  "group_id"
-  end
-
-  create_table "votes", force: true do |t|
-    t.string   "vote"
     t.integer  "pendingtask_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "yes", force: true do |t|

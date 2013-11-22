@@ -1,12 +1,12 @@
 class User < ActiveRecord::Base
 	has_secure_password
-  has_many :pendingtasks
+  belongs_to :pendingtask
   has_many :acceptedtasks
   has_many :currenttasks
   has_many :completedtasks
   has_and_belongs_to_many :groups
-  has_many :nods, :through=> :pendingtasks
-  has_many :nos, :through=> :pendingtasks
+  has_many :nods
+  has_many :nos
   
 	def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

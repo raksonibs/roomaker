@@ -2,17 +2,16 @@ class PendingtasksController < ApplicationController
 
 
 	def new
-		@user=User.find(params[:user_id])
+		@user=User.find(current_user.id)
 		@pendingtask=Pendingtask.new
 		@groups=@user.groups
 	end
 
 	def create
-		@user = User.find(params[:user_id])
-		@pendingtask = @user.pendingtasks.build(pendingtask_params)
+		@user = User.find_by_id(current_user.id)
+		@pendingtask = Pendingtask.new(pendingtask_params)
+		@pendingtask.users << current_user
 		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
-		@pendingtask.user_id=current_user.id #need user id to give pendingtask.user something
-		#since pendingtasks belong to users they get the id from current
 		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
 		stringofids=params[:pendingtask][:assignee_id]+" "+params[:pendingtask][:voter_ids]
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
@@ -30,14 +29,14 @@ class PendingtasksController < ApplicationController
         group = Group.find_by_id(params[:pendingtask][:group])
         @pendingtask.group = group.name
         ids_in = []
-        group.users.each do |user|
+        group.users.each do |user| #need to add voter ids
            if testing.include?(@pendingtask.assignee_id)
             ids_in << true
            else
             ids_in << false
            end
       end
-
+      debugger
  	
     if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && !(ids_in.any?{|c| c==false})
 				
@@ -47,15 +46,8 @@ class PendingtasksController < ApplicationController
 					#connects to id condition so not four times
 						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
 	
-							User.find_by_id(id).pendingtasks.create!({text:@pendingtask[:text],
-						                                       		assignee_id:@pendingtask[:assignee_id],
-						                                       		voter_ids:@pendingtask[:voter_ids],
-						                                       		points:@pendingtask[:points],
-						                                       		group:@pendingtask[:group],
-						                                       		threshold:@pendingtask[:threshold],
-						                                       		negthreshold:@pendingtask[:negthreshold],
-						                                       		filler_id:@pendingtask[:filler_id]
-						                                        })
+							@pendingtask.users << user
+							debugger
 						end
 					end
 				#end
@@ -126,6 +118,6 @@ class PendingtasksController < ApplicationController
 
 	private
 	def pendingtask_params
-		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold, :filler_id)
+		params.require(:pendingtask).permit(:text, :assignee_id, :voter_ids, :group, :threshold, :filler_id, :user_id)
 	end
 end

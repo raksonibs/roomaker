@@ -2,11 +2,11 @@ Roommaker::Application.routes.draw do
   get "welcome/index"
   resources :sessions, :only=> [:new,:create,:destroy]
   resources :users do
-    resources :pendingtasks, :except=>[:update,:edit]
     resources :acceptedtasks
     resources :currenttasks
     resources :completedtasks
   end
+  resources :pendingtasks
   #resources :groups
   root "welcome#index"
   get "/users/groups/:user_id"=> "groups#index"
