@@ -1,12 +1,23 @@
 <%= form_for @pendingtask do |f| %>
-  <%= f.label :text %>
+  Task needing completion:
   <%= f.text_area :text %>
   <br>
-  <%= f.label :assignee_id %>
+  Type the full name of who you want complete the task:
+  
   <%= f.text_field :assignee_id %>
+
   <br>
-  <%= f.label :voter_ids %>
-  <%= f.text_field :voter_ids %>
+  Select who else you want to vote besides yourself for the task. <br>Reminder, they have to be from the same group!<br>
+  Also whoever you assign the task to will vote. Sneakiness never wins! <br>
+  <% @groups.each do |group| %>
+    <%= group.name %>:
+    <% group.users.each do |user| %>
+      <%= check_box_tag((user.name.to_sym)) unless user==current_user %>
+      <%= label_tag((user.name.to_sym), "#{user.name}") unless user==current_user%>
+
+    <% end %>
+    <br>
+  <% end %>
   <br>
   <%= f.label :group %>
   <%= f.select :group, @user.groups.map{|g| [g.name,g.id]} %><br>

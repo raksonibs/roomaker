@@ -4,3 +4,5 @@ want to nicely display everything.
 want to make sure that tasks fro each group is different
 would like invite to group
 only want to display people in group they can select from, and cannot assign voters who are not in the group.
+also need to leave group
+#need to have a tiebreaker of some sort! revote, or jsut have to get 1 plus more if even

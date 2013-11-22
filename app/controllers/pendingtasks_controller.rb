@@ -8,51 +8,52 @@ class PendingtasksController < ApplicationController
 	end
 
 	def create
+		#"pendingtask"=>{"text"=>"clean dishes", "assignee_id"=>"Oskar Niburski", "group"=>"1"}, "Oskar Niburski"=>"1", "Kacper Niburski"=>"1"
 		@user = User.find_by_id(current_user.id)
-		@selfassinger= User.find_by_id(params[:pendingtask][:assignee_id])
+		@selfassinger= User.find_by_name(params[:pendingtask][:assignee_id])
 		@pendingtask = Pendingtask.new(pendingtask_params)
+		@group=Group.find_by_id(params[:pendingtask][:group])
+		usersingroup=@group.users
+		allin=true
+		@voting_ids=[]
+		@pendingtask.assignee_id=@selfassinger.id
+		params.keys.each do |name|
+			@voting_ids << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
+		end
+		@voting_ids << @selfassinger
+		@voting_ids << current_user
+		@voting_ids.each do |user|
+			allin=false if !usersingroup.include?(User.find_by_id(user))
+		end
 		@pendingtask.users << current_user
-		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
+		@pendingtask.voter_ids= @voting_ids.join(" ")
 		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
-		stringofids=params[:pendingtask][:assignee_id]+" "+params[:pendingtask][:voter_ids]
+		#voting_ids of all users. stringoids use to be assign to 2 and 3 votes= 2,3. if self assign would be say oskar did, 1,2,3
+		#will right voting_ids.each do |user|
+	#pendingtask.users << user unless @user=@selfassigner (cause already made) && user.id==@selfassinger.id (not sure about this one)
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
-		threshold=((stringofids.split(" ").size.to_f+1)/2.0).ceil
+		threshold=((@voting_ids.size.to_f)/2.0).ceil #need to worry about if even
 		negthreshold=threshold*-1
 		@pendingtask.threshold=threshold
 		@pendingtask.negthreshold=negthreshold
 		@pendingtask.filler_id=current_user.id
-		#2 4 5 
-		testing= stringofids.split(" ").map {|i| i.to_i} << @user.id
+
 
 
     	@pendingtask.points = 0
 
         group = Group.find_by_id(params[:pendingtask][:group])
         @pendingtask.group = group.name
-        ids_in = []
-        group.users.each do |user| #need to add voter ids
-           if testing.include?(@pendingtask.assignee_id)
-            ids_in << true
-           else
-            ids_in << false
-           end
-      end
 
-    if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && !(ids_in.any?{|c| c==false})
-				
-				stringofids.split(" ").each do |id|
-				#check id
-
-					User.all.each do |user|
-					#connects to id condition so not four times
-						if (user.id).to_i == id.to_i 
-	
-							@pendingtask.users << user unless @user==@selfassinger && user.id==@selfassinger.id
-						end
-					end
-				#end
-			  #cat.pendingtasks.new
+    if @pendingtask.save && allin
+			@voting_ids.each do |user|
+				debugger
+				#tests if current user is the self user, if it is should not read assign to users.
+				@pendingtask.users << user if !(@user==@selfassinger) && !(user==current_user)
+				debugger
 			end
+				
+
 			redirect_to @user
 		else
 
