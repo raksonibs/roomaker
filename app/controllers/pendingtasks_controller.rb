@@ -9,6 +9,7 @@ class PendingtasksController < ApplicationController
 
 	def create
 		@user = User.find_by_id(current_user.id)
+		@selfassinger= User.find_by_id(params[:pendingtask][:assignee_id])
 		@pendingtask = Pendingtask.new(pendingtask_params)
 		@pendingtask.users << current_user
 		@pendingtask.voter_ids= @pendingtask.voter_ids + " " + current_user.id.to_s
@@ -44,9 +45,9 @@ class PendingtasksController < ApplicationController
 
 					User.all.each do |user|
 					#connects to id condition so not four times
-						if (user.id).to_i == id.to_i && !(user.id == params[:pendingtask][:assignee_id].to_i)
+						if (user.id).to_i == id.to_i 
 	
-							@pendingtask.users << user
+							@pendingtask.users << user unless @user==@selfassinger && user.id==@selfassinger.id
 						end
 					end
 				#end
