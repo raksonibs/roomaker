@@ -7,14 +7,14 @@
     <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
   <% end %>
   <br>
+  Number of yeses: <%= task.nods.size %><br>
+  Number of nos: <%= task.nos.size %><br>
 
   <% if (@user.nods.where(pendingtask_id: task.id).size)==0 %>
-    <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> Number of people who said yes: <%= @result[task.id]==nil ? 0 : @result[task.id][0] %></p>
+    <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %></p>
   <% end %>
-  <%= @user.nods.where(pendingtask_id: task.id).size %><br>
-  <%= @user.nos.where(pendingtask_id: task.id).size %>
   <% if (@user.nos.where(pendingtask_id: task.id).size)==0%>
-    <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> Number of people who said no: <%= @result[task.id]==nil ? 0 : @result[task.id][-1]%></p>  <br>
+    <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %></p><br>
   <% end %>
 <% end %>
 
