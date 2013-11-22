@@ -1,9 +1,10 @@
-want to verifiy complete task from one of the voters after guy completed,
-want time on completion of task,
-want to nicely display everything.
-want to make sure that tasks fro each group is different
-would like invite to group
-only want to display people in group they can select from, and cannot assign voters who are not in the group.
-also need to leave group
-#need to have a tiebreaker of some sort! revote, or jsut have to get 1 plus more if even
-need to make sure voters if house has five members in it needs to at least have three votes. also deal with even vote threshold.
+want to verifiy complete task from one of the voters after guy completed, - to do!
+want time on completion of task, - to do
+want to nicely display everything. -to do
+want to make sure that tasks fro each group is different - done?
+would like invite to group - to do
+only want to display people in group they can select from, and cannot assign voters who are not in the group. -check
+also need to leave group -to do
+#need to have a tiebreaker of some sort! revote, or jsut have to get 1 plus more if even -done
+need to make sure voters if house has five members in it needs to at least have three votes. basically want to make sure people cannot just assign themselves tasks -done
+display error flash messages - to do

@@ -26,9 +26,9 @@ class PendingtasksController < ApplicationController
 			@voters << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
 		end
 		@voting_ids << @selfassinger.id
-		@voting_ids << current_user.id
+		@voting_ids << current_user.id unless @selfassinger == current_user
 		@voters << @selfassinger
-		@voters << current_user
+		@voters << current_user unless @selfassinger == current_user #did not have before, may screw up system
 		@voting_ids.each do |user|
 			allin=false if !usersingroup.include?(User.find_by_id(user))
 		end
@@ -41,7 +41,6 @@ class PendingtasksController < ApplicationController
 		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
 		threshold=((@voting_ids.size.to_f)/2.0).ceil #need to worry about if even
 		threshold= @voting_ids.size%2==0 ? threshold+1 : threshold
-		debugger
 		negthreshold=threshold*-1
 		@pendingtask.threshold=threshold
 		@pendingtask.negthreshold=negthreshold
@@ -53,19 +52,28 @@ class PendingtasksController < ApplicationController
 
         group = Group.find_by_id(params[:pendingtask][:group])
         @pendingtask.group = group.name
+        #check when self if voter id and current user id are the saem
+        oneguy=true
 
-    if @pendingtask.save && allin
+        if current_user.id==@pendingtask.voter_ids[-1].to_i
+        	if @pendingtask.voter_ids.size==1
+        		oneguy=false
+        		
+        	end
+        end
+
+
+    if @pendingtask.save && allin && oneguy
 			@voters.each do |user|
-				debugger
 				#tests if current user is the self user, if it is should not read assign to users.
 				@pendingtask.users << user if !(user==current_user)
 			end
 				
 
 			redirect_to @user
-			debugger
-		else
 
+		else
+			@pendingtask.destroy
 			flash[:error]="Didn't work"
 			redirect_to new_pendingtask_path
 			
