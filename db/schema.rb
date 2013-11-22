@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131118020750) do
+ActiveRecord::Schema.define(version: 20131122001054) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -49,6 +49,22 @@ ActiveRecord::Schema.define(version: 20131118020750) do
   create_table "groups_users", id: false, force: true do |t|
     t.integer "group_id"
     t.integer "user_id"
+  end
+
+  create_table "nods", force: true do |t|
+    t.integer  "pendingtask_id"
+    t.integer  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  create_table "nos", force: true do |t|
+    t.integer  "pendingtask_id"
+    t.integer  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "pendingtasks", force: true do |t|
@@ -99,6 +115,13 @@ ActiveRecord::Schema.define(version: 20131118020750) do
   create_table "votes", force: true do |t|
     t.string   "vote"
     t.integer  "pendingtask_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "yes", force: true do |t|
+    t.integer  "pendingtask_id"
+    t.integer  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

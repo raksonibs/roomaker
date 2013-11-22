@@ -100,25 +100,10 @@ class PendingtasksController < ApplicationController
 	def yes
 
 		@user=User.find(params[:user_id]) #gets current user
-		@pendingtask=Pendingtask.find_by_id(params[:id]).text #gets task they want to vote on
-		User.all.each do |user|
-
-			if user.pendingtasks.find_by_text(@pendingtask)
-				val=user.pendingtasks.find_by_text(@pendingtask)
-				if session[:no].last==val && session[:lastuser]==@user
-					val.pendingvotes.last.destroy
-					val.pendingvotes << Pendingvote.new({text:"yes"})
-				else
-					val.pendingvotes << Pendingvote.new({text:"yes"})
-				end
-				val.save #for each user's this task, the vote goes up by one now
-
-			end
-		end
-        #now need to make the yes invisible, for just this user
-        session[:yes] << Pendingtask.find_by_id(params[:id])
-        session[:lastuser]=@user
-        session[:no].delete_at(-1) unless session[:no].last==nil
+		@pendingtask=Pendingtask.find_by_id(params[:id]) #gets task they want to vote on
+        @nod=@pendingtask.nods << Nod.new({amount:1,
+        									:user_id:current_user.id})
+        debugger
 
 		redirect_to @user
 
@@ -126,29 +111,10 @@ class PendingtasksController < ApplicationController
 
 	def no
 		@user=User.find(params[:user_id])
-		@pendingtask=Pendingtask.find_by_id(params[:id]).text
-		User.all.each do |user|
-
-			if user.pendingtasks.find_by_text(@pendingtask)
-
-				val=user.pendingtasks.find_by_text(@pendingtask)
-
-				if session[:yes].last==val && session[:lastuser]==@user
-					val.pendingvotes.last.destroy
-					val.pendingvotes << Pendingvote.new({text:"no"})
-
-
-				else
-					val.pendingvotes << Pendingvote.new({text:"no"})
-				end
-				val.save
-
-			end
-		end
-		#same as above, but need to make the yes invisible just for this user
-		session[:no] << Pendingtask.find_by_id(params[:id])
-		session[:yes].delete_at(-1) unless session[:yes].last==nil
-		session[:lastuser]=@user
+		@pendingtask=Pendingtask.find_by_id(params[:id])
+		@no=@pendingtask.nos << No.new({amount:1,
+        								:user_id:current_user.id})
+		
 		
 
 		redirect_to @user
