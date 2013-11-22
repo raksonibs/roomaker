@@ -51,6 +51,9 @@ GEM
     execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    foundation-rails (5.0.1.0)
+      railties (>= 3.1.0)
+      sass (>= 3.2.0)
     hashie (2.0.5)
     hike (1.2.3)
     httpauth (0.2.0)
@@ -146,6 +149,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   coffee-rails (~> 4.0.0)
   debugger
+  foundation-rails
   jbuilder (~> 1.2)
   jquery-rails
   omniauth

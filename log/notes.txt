@@ -13,4 +13,10 @@ display error flash messages - to do
 once guy clicks completed, someone who voted for it will see in their selected that they can click verify. once it is verified, goes to completed. if both or the compelter clicks not complete, then goes to incomplete.
 
 -if click complete for one task, they all complete. lol. (fixed the problem with regards to doubling)
--if completed, remove from accepted tasks for all users. (No longer accepted task in the guy who has to do it. Just have to fix the multiple completer things!)
+-if completed, remove from accepted tasks for all users. (No longer accepted task in the guy who has to do it. Just have to fix the multiple completer things!) -NOT SURE HOW TO IMPLEMENT MUST THINK
+
+-time sensitive and how long it took them to complete(like date they did it). also language processing!
+
+-add incomplete model
+
+-problem potentitally with how many completed tasks they did if in multiple groups

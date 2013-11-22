@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Roommaker</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<div id="user-widget">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "Roomaker" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <div id="user-widget">
 <% if current_user %>
   Welcome <%= User.find_by_id(current_user).name %> <%= image_tag("http://graph.facebook.com/#{current_user.uid}/picture?type=small")%> || <%= link_to "Sign out", signout_path, id: "sign_out" %> || <%= link_to "What's doing?", user_path(User.find_by_id(current_user)) %>
   || <%= link_to "New group", "/groups/#{current_user.id}/new" %> || <%= link_to "Join group", "/groups" %>
@@ -15,7 +20,8 @@
   <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %> || <%= link_to "Sign in without Facebook", new_session_path %> || <%= link_to "Sign up without Facebook", new_user_path %>
 <% end %>
 </div>
-<%= yield %>
 
-</body>
+    <%= yield %>
+    <%= javascript_include_tag "application" %>
+  </body>
 </html>

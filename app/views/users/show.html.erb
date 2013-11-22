@@ -1,4 +1,17 @@
 <%= link_to "New Pending Task", new_pendingtask_path %><br>
+<table>
+<thead>
+<th>
+  <tr>Pending Tasks </tr>
+  <tr>Accepted Tasks </tr>
+  <tr>Current Tasks </tr>
+  <tr>Completed Tasks </tr>
+  <tr>Incompleted Tasks </tr>
+</thead>
+</table>
+
+
+
 <br> Pending Tasks:
 <% @pendingtasks.each do |task| %>
 <% task.users.each do |user| %>
@@ -47,7 +60,7 @@
 <br> Completed:
 
 <% @completedtasks.each do |task| %>
-  <%= task.group %> <%= task.text %>, <%= task.completer_id %>, |  <br>
+   <%= User.find_by_id(task.completer_id).name %> completed the task: <%= task.text %> in the <%= task.group %>  <br>
 <% end %>
 
 <br>
@@ -68,4 +81,3 @@
 
   <% end %>
 <% end %>
-<br>
