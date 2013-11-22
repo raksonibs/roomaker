@@ -4,30 +4,21 @@
   <%= task.text %>, TASK'S ID <%= task.id %> Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
   <% if current_user.id == task.filler_id%>
 
-
     <%= link_to "Delete Task", "/users/#{@user.id}/pendingtasks/#{task.id}/", :confirm => "Delete?", :method => :delete %>
   <% end %>
-  <%= session[:yes].include? task %>
-  <%= current_user.name==session[:lastuser].name %>
-  <%= session[:yes].include? task && current_user.name==session[:lastuser].name %>
-  <% unless session[:yes].include? task %>
+  <br>
+
+  <% if (@user.nods.where(pendingtask_id: task.id).size)==0 %>
     <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %> Number of people who said yes: <%= @result[task.id]==nil ? 0 : @result[task.id][0] %></p>
   <% end %>
-  <% unless session[:no].include? task%>
+  <%= @user.nods.where(pendingtask_id: task.id).size %><br>
+  <%= @user.nos.where(pendingtask_id: task.id).size %>
+  <% if (@user.nos.where(pendingtask_id: task.id).size)==0%>
     <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %> Number of people who said no: <%= @result[task.id]==nil ? 0 : @result[task.id][-1]%></p>  <br>
   <% end %>
 <% end %>
-<br>
-<%= @result.inspect %> Values for the task and its totalyes and no for each <br><br>
-<br>
-YES ONE:<%= session[:yes].inspect %><br> <br>
-NO ONE:<%= session[:no].inspect %>  <br>
 
 
-
-<br>
-
-<br>
 <br> Accepted:
 <% @acceptedtasks.each do |task| %>
   <%= task.text %>, <%= task.user_id %>, | <%= task.group %> <br>

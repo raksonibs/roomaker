@@ -102,8 +102,10 @@ class PendingtasksController < ApplicationController
 		@user=User.find(params[:user_id]) #gets current user
 		@pendingtask=Pendingtask.find_by_id(params[:id]) #gets task they want to vote on
         @nod=@pendingtask.nods << Nod.new({amount:1,
-        									:user_id:current_user.id})
-        debugger
+        									:user_id=> @user.id})
+        @user.nos.each do |no|
+        	no.delete if no.pendingtask.id==@pendingtask.id
+        end
 
 		redirect_to @user
 
@@ -113,9 +115,11 @@ class PendingtasksController < ApplicationController
 		@user=User.find(params[:user_id])
 		@pendingtask=Pendingtask.find_by_id(params[:id])
 		@no=@pendingtask.nos << No.new({amount:1,
-        								:user_id:current_user.id})
+        								:user_id=>@user.id})
 		
-		
+		 @user.nods.each do |nod|
+        	nod.delete if nod.pendingtask.id==@pendingtask.id
+        end
 
 		redirect_to @user
 	end
