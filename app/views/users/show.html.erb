@@ -30,7 +30,7 @@
 
 <% end %>
 
-
+<br>
 <br> Accepted Tasks:
 <% @acceptedtasks.each do |task| %>
   Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>

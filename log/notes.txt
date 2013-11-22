@@ -8,3 +8,9 @@ also need to leave group -to do
 #need to have a tiebreaker of some sort! revote, or jsut have to get 1 plus more if even -done
 need to make sure voters if house has five members in it needs to at least have three votes. basically want to make sure people cannot just assign themselves tasks -done
 display error flash messages - to do
+
+----
+once guy clicks completed, someone who voted for it will see in their selected that they can click verify. once it is verified, goes to completed. if both or the compelter clicks not complete, then goes to incomplete.
+
+-if click complete for one task, they all complete. lol. (fixed the problem with regards to doubling)
+-if completed, remove from accepted tasks for all users. (No longer accepted task in the guy who has to do it. Just have to fix the multiple completer things!)

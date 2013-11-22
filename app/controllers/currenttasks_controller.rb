@@ -21,20 +21,24 @@ class CurrenttasksController < ApplicationController
 
 	def delete
 		@currentguy = User.find_by_id(current_user.id)
-
+		# if currenttask has been validated then delete.
+		#currenttask has valid, belongs to current. so if valid exits for currenttask
+		#and guy clicked delete, only then deletes
 		@currentguy.currenttasks.each do |task|
 			task.user_id
 			@currentguy.completedtasks.create!({text:task[:text],
 											group:task[:group],
 				                           completer_id:task[:completer_id]})
+			#double here on the other user
 			User.all.each do |user|
 				user.acceptedtasks.each do |atask|
-					if atask[:text]==task[:text]
+					if atask[:text]==task[:text] && @currentguy!=user
 
 
 						user.completedtasks.create!({text:task[:text],
 							               group:task[:group],
 				                           completer_id:task[:completer_id]})
+						atask.destroy
 					end
 				end
 			end
