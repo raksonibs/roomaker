@@ -5,6 +5,8 @@ class PendingtasksController < ApplicationController
 		@user=User.find(current_user.id)
 		@pendingtask=Pendingtask.new
 		@groups=@user.groups
+		@groups.each do |group|
+		end
 	end
 
 	def create
@@ -16,12 +18,16 @@ class PendingtasksController < ApplicationController
 		usersingroup=@group.users
 		allin=true
 		@voting_ids=[]
+		@voters= []
 		@pendingtask.assignee_id=@selfassinger.id
 		params.keys.each do |name|
-			@voting_ids << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
+			@voting_ids << User.find_by_name(name).id if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
+			@voters << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
 		end
-		@voting_ids << @selfassinger
-		@voting_ids << current_user
+		@voting_ids << @selfassinger.id
+		@voting_ids << current_user.id
+		@voters << @selfassinger
+		@voters << current_user
 		@voting_ids.each do |user|
 			allin=false if !usersingroup.include?(User.find_by_id(user))
 		end
@@ -46,15 +52,15 @@ class PendingtasksController < ApplicationController
         @pendingtask.group = group.name
 
     if @pendingtask.save && allin
-			@voting_ids.each do |user|
+			@voters.each do |user|
 				debugger
 				#tests if current user is the self user, if it is should not read assign to users.
-				@pendingtask.users << user if !(@user==@selfassinger) && !(user==current_user)
-				debugger
+				@pendingtask.users << user if !(user==current_user)
 			end
 				
 
 			redirect_to @user
+			debugger
 		else
 
 			flash[:error]="Didn't work"

@@ -5,7 +5,7 @@
 <% if user.id==current_user.id %>
   <%= User.find_by_id(task.assignee_id).name %> has to: <%= task.text %>. <br>
   Assigned by <%= User.find_by_id(task.filler_id).name %> and voted by: 
-  <% task.voter_ids.split(" ").each do |id| %>
+  <% task.voter_ids.split.each do |id| %>
   <%= User.find_by_id(id).name %><%= task.voter_ids.split(" ")[-1]==id ? "." : ", " %> 
   <% end %> <br>
   This is done in your <%= task.group %> <br> Needs either <%= task.threshold %>  votes against or for to pass: <br>
