@@ -36,14 +36,15 @@ class PendingtasksController < ApplicationController
             ids_in << false
            end
       end
- 	
+
     if @pendingtask.save && (@user.id.to_s != stringofids[-2]) && !(ids_in.any?{|c| c==false})
 				
 				stringofids.split(" ").each do |id|
 				#check id
+
 					User.all.each do |user|
 					#connects to id condition so not four times
-						if (user.id).to_i == id.to_i && !(@user.id == params[:pendingtask][:assignee_id].to_i)
+						if (user.id).to_i == id.to_i && !(user.id == params[:pendingtask][:assignee_id].to_i)
 	
 							@pendingtask.users << user
 						end
@@ -58,7 +59,7 @@ class PendingtasksController < ApplicationController
 			render 'new'
 			
 		end
-	debugger
+
 	end
 
 	def destroy
