@@ -1,16 +1,22 @@
 <%= link_to "New Pending Task", new_pendingtask_path %><br>
-<br> Pending:
+<br> Pending Tasks:
 <% @pendingtasks.each do |task| %>
 <% task.users.each do |user| %>
 <% if user.id==current_user.id %>
-  <%= task.text %>, TASK'S ID <%= task.id %> Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
+  <%= User.find_by_id(task.assignee_id).name %> has to: <%= task.text %>. <br>
+  Assigned by <%= User.find_by_id(task.filler_id).name %> and voted by: 
+  <% task.voter_ids.split(" ").each do |id| %>
+  <%= User.find_by_id(id).name %><%= task.voter_ids.split(" ")[-1]==id ? "." : ", " %> 
+  <% end %> <br>
+  This is done in your <%= task.group %> <br> Needs either <%= task.threshold %>  votes against or for to pass: <br>
   <% if current_user.id == task.filler_id%>
 
     <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
   <% end %>
   <br>
-  Number of yeses: <%= task.nods.size %><br>
-  Number of nos: <%= task.nos.size %><br>
+  Current Votes<br>
+  Number for: <%= task.nods.size %><br>
+  Number against: <%= task.nos.size %><br>
 
   <% if (@user.nods.where(pendingtask_id: task.id).size)==0 %>
     <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %></p>
@@ -25,15 +31,16 @@
 <% end %>
 
 
-<br> Accepted:
+<br> Accepted Tasks:
 <% @acceptedtasks.each do |task| %>
-  <%= task.text %>, <%= task.user_id %>, | <%= task.group %> <br>
+  Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>
 <% end %>
 
 <br>
 <br> Current:
 <% @currenttasks.each do |task| %>
-  <%= task.text %>, <%= task.user_id %>, | <%= task.completer_id %> | <%= task.group %> | <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
+  You have to <%= task.text %> in the <%= task.group %><br>
+  <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
 <% end %>
 
 <br>
