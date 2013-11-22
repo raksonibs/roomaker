@@ -58,6 +58,7 @@ class PendingtasksController < ApplicationController
 			render 'new'
 			
 		end
+	debugger
 	end
 
 	def destroy

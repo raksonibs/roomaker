@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122020440) do
+ActiveRecord::Schema.define(version: 20131122024749) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20131122020440) do
     t.string   "group"
     t.integer  "negthreshold"
     t.integer  "filler_id"
+    t.integer  "user_id"
   end
 
   create_table "pendingvotes", force: true do |t|

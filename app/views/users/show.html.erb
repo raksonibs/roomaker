@@ -1,8 +1,11 @@
 <%= link_to "New Pending Task", new_pendingtask_path %><br>
 <br> Pending:
 <% @pendingtasks.each do |task| %>
+the task Description: <%= task.text %> How big is this current tasks user size:<%= task.users.size %><br>
 <% task.users.each do |user| %>
+User id assocaited to task: <%= user.id %> and the task is <%= task.text %><br>
 <% if user.id==current_user.id %>
+<br>
   <%= task.text %>, TASK'S ID <%= task.id %> Voter ids: <%= task.voter_ids %>, Who has to do it: <%= task.assignee_id %> | <%= task.group %> Plus/minus threshold <%= task.threshold %><br>
   <% if current_user.id == task.filler_id%>
 
@@ -21,7 +24,9 @@
 <% end %>
 
 <% end %>
+<br>
 <% end %>
+
 
 <br> Accepted:
 <% @acceptedtasks.each do |task| %>
@@ -59,3 +64,4 @@
 
   <% end %>
 <% end %>
+<br>

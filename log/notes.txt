@@ -1,0 +1,1 @@
+they all have different pending task describing thr same thing. they all have to point to the same pending task, and the yeses and noes poiint to that task.

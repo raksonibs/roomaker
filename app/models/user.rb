@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	has_secure_password
-  belongs_to :pendingtask
+  has_and_belongs_to_many :pendingtasks
   has_many :acceptedtasks
   has_many :currenttasks
   has_many :completedtasks

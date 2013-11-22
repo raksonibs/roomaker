@@ -17,6 +17,7 @@ class UsersController < ApplicationController
    def show
 		@user=User.find(params[:id])
     @pendingtasks=Pendingtask.all
+
     
 		session[:user_id]=@user.id
     @acceptedtasks = @user.acceptedtasks
@@ -25,6 +26,7 @@ class UsersController < ApplicationController
     @groups=@user.groups
     @nods=@user.nods
     @nos=@user.nos
+
 
 	end
 
