@@ -1,4 +1,6 @@
 class CurrenttasksController < ApplicationController
+	before_filter :checkdelete
+
 	def show
 		@user=User.find_by_id(params[:id])
 		@currenttasks=@user.currenttasks
@@ -20,6 +22,7 @@ class CurrenttasksController < ApplicationController
 	end
 
 	def delete
+		
 		@currentguy = User.find_by_id(params[:user_id])
 		# if currenttask has been validated then delete.
 		#currenttask has valid, belongs to current. so if valid exits for currenttask
@@ -34,7 +37,7 @@ class CurrenttasksController < ApplicationController
 			task.verified||=0
 
 
-			if task.id == params[:id].to_i && task.verified>1
+			if task.id == params[:id].to_i && task.verified>=1
 				@currentguy.completedtasks.create!({text:task[:text],
 												group:task[:group],
 				                           		completer_id:task[:completer_id]})
@@ -55,11 +58,11 @@ class CurrenttasksController < ApplicationController
 				end
 
 			task.destroy
-			redirect_to @currentguy
+			redirect_to current_user
 			else
 				task.verified+=1
 				task.save
-				redirect_to @currentguy
+				redirect_to current_user
 
 			end
 
@@ -71,6 +74,47 @@ class CurrenttasksController < ApplicationController
 	private
 	def currenttask_params
 		params.require(:currenttask).permit(:text, :user_id, :completer_id, :group)
+	end
+	def checkdelete
+		@currentguy = User.find_by_id(current_user.id)
+		# if currenttask has been validated then delete.
+		#currenttask has valid, belongs to current. so if valid exits for currenttask
+		#and guy clicked delete, only then deletes
+		#once he clicks confirm, must go on the accepted. SO find all accepted with some text
+		#and completer id and group name. THen give them a link to verify if he confirms. 
+		# if he clicks confirm, needs to tell him he is waiting.
+		#currenttask needs verifiers (voter ids)
+
+		@currentguy.currenttasks.each do |task|
+			# check task, taskid, and the guy below
+			task.verified||=0
+
+
+			if task.id == params[:id].to_i && task.verified>=1
+				@currentguy.completedtasks.create!({text:task[:text],
+												group:task[:group],
+				                           		completer_id:task[:completer_id]})
+			
+			#double here on the other user
+				User.all.each do |user|
+					user.acceptedtasks.each do |atask|
+						if atask[:text]==task[:text] && @currentguy!=user
+
+
+							user.completedtasks.create!({text:task[:text],
+							               		group:task[:group],
+				                           		completer_id:task[:completer_id]})
+							atask.destroy
+						end
+
+					end
+				end
+
+			task.destroy
+			end
+
+
+		end
 	end
 end
 
