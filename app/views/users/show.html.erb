@@ -56,10 +56,10 @@
   Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>
   <% Currenttask.all.each do |ctask| %>
 
-    <% if ctask.verified<=1 %>
+    <% if ctask.verified>=1 %>
       <% if ctask.text==task.text && ctask.completer_id==task.completer_id %>
         <%= link_to "Verify Task's completion", "/users/#{ctask.completer_id}/#{ctask.id}/verifY" %> <br> 
-        <%= link_to "Verify Not completed", "/users/#{ctask.completer_id}/#{ctask.id}/notverifY" %> <br> 
+        <%= link_to "Verify Not completed", "/users/#{ctask.completer_id}/#{ctask.id}/not" %> <br> 
       <% end %>
     <% end %>
   <% end %>
