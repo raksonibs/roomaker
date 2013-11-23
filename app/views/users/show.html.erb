@@ -54,6 +54,15 @@
 <br> Accepted Tasks:
 <% @acceptedtasks.each do |task| %>
   Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>
+  <% Currenttask.all.each do |ctask| %>
+
+    <% if ctask.verified==1 %>
+      <% if ctask.text==task.text && ctask.completer_id==task.completer_id %>
+        <%= link_to "Verify Task's completion", "/users/#{ctask.completer_id}/#{ctask.id}/verifY" %> <br> 
+        <%= link_to "Verify Not completed", "/users/#{ctask.completer_id}/#{ctask.id}/notverifY" %> <br> 
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <br>
@@ -61,8 +70,11 @@
 <% @currenttasks.each do |task| %>
   You have to <%= task.text %> in the <%= task.group %><br>
   <% if task.verified!=1 %>
-    <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
-    <% end %>
+    <%= link_to "Did you complete this?", "/users/#{task.completer_id}/#{task.id}/delete" %> <br>
+  <% end %>
+  <% if task.verified==1 %>
+    <%= "Waiting for verification".upcase %><br>
+  <% end %>
 <% end %>
 
 <br>

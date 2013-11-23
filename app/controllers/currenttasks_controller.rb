@@ -20,7 +20,7 @@ class CurrenttasksController < ApplicationController
 	end
 
 	def delete
-		@currentguy = User.find_by_id(current_user.id)
+		@currentguy = User.find_by_id(params[:user_id])
 		# if currenttask has been validated then delete.
 		#currenttask has valid, belongs to current. so if valid exits for currenttask
 		#and guy clicked delete, only then deletes
@@ -28,10 +28,11 @@ class CurrenttasksController < ApplicationController
 		#and completer id and group name. THen give them a link to verify if he confirms. 
 		# if he clicks confirm, needs to tell him he is waiting.
 		#currenttask needs verifiers (voter ids)
+
 		@currentguy.currenttasks.each do |task|
 			# check task, taskid, and the guy below
 			task.verified||=0
-			debugger
+
 
 			if task.id == params[:id].to_i && task.verified>1
 				@currentguy.completedtasks.create!({text:task[:text],

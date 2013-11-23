@@ -22,3 +22,5 @@ once guy clicks completed, someone who voted for it will see in their selected t
 -problem potentitally with how many completed tasks they did if in multiple groups
 
 -going to do verifier as such: guy clicks completed (it disappears from his page, so need to make sure hidden and not visible with if on show), makes that current task have a completed.verified+=1. THen go through all completed tasks who have verified+1, and if it matches the text and completer_id of the accepted task, you see a new link beside that accepted task "Did User.find_by_completer_id(currenttask.completer_id) complete this?". They select yes. Makes that completed task (so the link will be for that completer task sending them to the delete method with one new params, which is verified. so If params[:verified]=true, then it deletes once they click verified, moving to the completerids and acceptedids completed task. If he clicks not verified, it makes that task (params[:verified])
+
+- need to fix amount complpeted in each place, as in kacper has two in family home and two in his other family home, but those are different
