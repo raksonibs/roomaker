@@ -15,7 +15,9 @@ class UsersController < ApplicationController
   end
 
    def show
+
 		@user=User.find(params[:id])
+
     @pendingtasks=Pendingtask.all
 
     
@@ -32,6 +34,20 @@ class UsersController < ApplicationController
       return arr.max_by {|x| x.size }
     end
     @large=selectmax(@pendingtasks,@acceptedtasks,@completedtasks,@currenttasks,@incompletetasks).size
+    @grouptasks={}
+    @user.groups.each do |group|
+      val||=[]
+      val <<@user.pendingtasks.where(group: group.name)
+      val <<@user.acceptedtasks.where(group: group.name)
+      val << @user.currenttasks.where(group: group.name)
+      val << @user.completedtasks.where(group: group.name)
+      val <<@user.incompletetasks.where(group: group.name)
+      @grouptasks[group]=val
+    end
+
+
+
+
 
 	end
 
