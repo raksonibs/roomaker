@@ -60,7 +60,9 @@
 <br> Current:
 <% @currenttasks.each do |task| %>
   You have to <%= task.text %> in the <%= task.group %><br>
-  <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
+  <% if task.verified!=1 %>
+    <%= link_to "Did you complete this?", "/users/#{@user.id}/#{task.id}/delete" %> <br>
+    <% end %>
 <% end %>
 
 <br>

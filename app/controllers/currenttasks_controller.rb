@@ -30,8 +30,10 @@ class CurrenttasksController < ApplicationController
 		#currenttask needs verifiers (voter ids)
 		@currentguy.currenttasks.each do |task|
 			# check task, taskid, and the guy below
+			task.verified||=0
+			debugger
 
-			if task.id == params[:id].to_i #&& task.verified?
+			if task.id == params[:id].to_i && task.verified>1
 				@currentguy.completedtasks.create!({text:task[:text],
 												group:task[:group],
 				                           		completer_id:task[:completer_id]})
@@ -54,7 +56,9 @@ class CurrenttasksController < ApplicationController
 			task.destroy
 			redirect_to @currentguy
 			else
-				task
+				task.verified+=1
+				task.save
+				redirect_to @currentguy
 
 			end
 
