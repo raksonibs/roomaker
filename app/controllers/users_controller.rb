@@ -53,7 +53,8 @@ class UsersController < ApplicationController
 
           @user.currenttasks.create!({text: task[:text],
                                       group: task[:group],
-                                      completer_id:@user.id}) unless @user.currenttasks.include? Currenttask.find_by_text(task[:text]) || @user==nil
+                                      completer_id:@user.id,
+                                      verified: 0}) unless @user.currenttasks.include? Currenttask.find_by_text(task[:text]) || @user==nil
 
           votingids = task.voter_ids.split(" ")
           votingids.each do |id|

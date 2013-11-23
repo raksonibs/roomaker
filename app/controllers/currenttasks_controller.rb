@@ -34,11 +34,12 @@ class CurrenttasksController < ApplicationController
 
 		@currentguy.currenttasks.each do |task|
 			# check task, taskid, and the guy below
-			task.verified||=0
+			task.verified=0 if task.verified<0
 			if params[:not]
 				
 				task.verified-=1
 				task.save
+				debugger
 
 
 
@@ -65,20 +66,23 @@ class CurrenttasksController < ApplicationController
 					end
 				end
 
-			task.destroy
-			redirect_to current_user
+				task.destroy
+
 			else
 
-				if !(params[:not])
+				if (!(params[:not])) && task.id==params[:id].to_i
+					debugger
 					task.verified+=1
 					task.save
 				end
-				redirect_to current_user
+				
 
 			end
 
 
+
 		end
+		redirect_to current_user
 		
 	end
 

@@ -69,6 +69,7 @@
 <br> Current:
 <% @currenttasks.each do |task| %>
   You have to <%= task.text %> in the <%= task.group %><br>
+  <%= task.verified %>
   <% if task.verified!=1 %>
     <%= link_to "Did you complete this?", "/users/#{task.completer_id}/#{task.id}/delete" %> <br>
   <% end %>
