@@ -23,7 +23,9 @@ Roommaker::Application.routes.draw do
   get '/users/:user_id/:id/delete' => "currenttasks#delete"
   get "/groups/"=> "groups#index"
   get "/users/:user_id/:id/verifY" => "currenttasks#delete"
-  get"/users/:user_id/:id/:not" => "currenttasks#delete"
+  get "/users/:user_id/:id/:not" => "currenttasks#delete"
+  get "/:user_id/:id/incomplete" => "currenttasks#incomplete"
+  get "groups/:group_id/:user_id/leave" => "groups#leave"
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

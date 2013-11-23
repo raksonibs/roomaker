@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_many :nods
   has_many :nos
+  has_many :incompletetasks
   
 	def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

@@ -59,6 +59,7 @@
     <% if ctask.verified>=1 %>
       <% if ctask.text==task.text && ctask.completer_id==task.completer_id %>
         <%= link_to "Verify Task's completion", "/users/#{ctask.completer_id}/#{ctask.id}/verifY" %> <br> 
+
         <%= link_to "Verify Not completed", "/users/#{ctask.completer_id}/#{ctask.id}/not" %> <br> 
       <% end %>
     <% end %>
@@ -71,7 +72,9 @@
   You have to <%= task.text %> in the <%= task.group %><br>
   <%= task.verified %>
   <% if task.verified!=1 %>
-    <%= link_to "Did you complete this?", "/users/#{task.completer_id}/#{task.id}/delete" %> <br>
+
+    <%= link_to "Complete?", "/users/#{task.completer_id}/#{task.id}/delete" %> <br>
+    <%= link_to "Not going to do it?", "/#{task.completer_id}/#{task.id}/incomplete" %> <br>
   <% end %>
   <% if task.verified==1 %>
     <%= "Waiting for verification".upcase %><br>
@@ -84,6 +87,14 @@
 <% @completedtasks.each do |task| %>
    <%= User.find_by_id(task.completer_id).name %> completed the task: <%= task.text %> in the <%= task.group %>  <br>
 <% end %>
+
+<br> Incomplete:
+<% @incompletetasks.each do |task| %>
+   <%= User.find_by_id(task.completer_id).name %> did not complete the task: <%= task.text %> in the <%= task.group %>  <br>
+<% end %>
+<br>
+
+
 
 <br>
 <p> <b>My Groups:</b> </p>

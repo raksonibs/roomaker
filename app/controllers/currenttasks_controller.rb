@@ -9,6 +9,29 @@ class CurrenttasksController < ApplicationController
 	def new
 	end
 
+	def incomplete
+		debugger
+		task=Currenttask.find_by_id(params[:id])
+		@currentguy=current_user
+		@currentguy.incompletetasks.create!({text:task[:text],
+												group:task[:group],
+				                           		completer_id:task[:completer_id]})
+			
+			#double here on the other user
+		User.all.each do |user|
+			user.acceptedtasks.each do |atask|
+				if atask[:text]==task[:text] && @currentguy!=user
+					user.incompletetasks.create!({text:task[:text],
+							               		group:task[:group],
+				                           		completer_id:task[:completer_id]})
+					atask.destroy
+				end
+			end
+		end
+		task.destroy
+		redirect_to current_user
+	end
+
 	def create
 		@user=User.find(params[:user_id])
 		@currenttasks=@user.currenttasks.build(currenttask_params)
@@ -39,7 +62,7 @@ class CurrenttasksController < ApplicationController
 				
 				task.verified-=1
 				task.save
-				debugger
+
 
 
 
@@ -71,7 +94,7 @@ class CurrenttasksController < ApplicationController
 			else
 
 				if (!(params[:not])) && task.id==params[:id].to_i
-					debugger
+
 					task.verified+=1
 					task.save
 				end

@@ -1,7 +1,12 @@
 <% @groups.each do |group| %>
-  <%= group.name %> <%= link_to "Join", edit_group_path(group) %>
+  <%= group.name %> Size: <%= group.users.size %> 
+  <% if current_user.groups.include?(group) %>
+  	<%= link_to "Leave", "groups/#{group.id}/#{current_user.id}/leave" %>
+  <% else %>
+  	<%= link_to "Join", edit_group_path(group) %>
+  <% end %>
+
    <br>
-   <% group.users.each do |name| %> 
-      <%= name.name %> | <%= name.id %> <br>
-    <%end%>
+   
+
 <% end %>

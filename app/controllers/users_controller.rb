@@ -26,6 +26,7 @@ class UsersController < ApplicationController
     @groups=@user.groups
     @nods=@user.nods
     @nos=@user.nos
+    @incompletetasks=@user.incompletetasks
 
 
 	end

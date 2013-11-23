@@ -1,28 +1,14 @@
-want to verifiy complete task from one of the voters after guy completed, - DONE
 want time on completion of task, - to do
-want to nicely display everything. -to do
 want to make sure that tasks fro each group is different - done?
 would like invite to group - to do
-only want to display people in group they can select from, and cannot assign voters who are not in the group. -check
-also need to leave group -to do
-#need to have a tiebreaker of some sort! revote, or jsut have to get 1 plus more if even -done
-need to make sure voters if house has five members in it needs to at least have three votes. basically want to make sure people cannot just assign themselves tasks -done
 display error flash messages - to do
-
-----
-once guy clicks completed, someone who voted for it will see in their selected that they can click verify. once it is verified, goes to completed. if both or the compelter clicks not complete, then goes to incomplete. -done
-
--if click complete for one task, they all complete. lol. (fixed the problem with regards to doubling) -done
--if completed, remove from accepted tasks for all users. (No longer accepted task in the guy who has to do it. Just have to fix the multiple completer things!) -NOT SURE HOW TO IMPLEMENT MUST THINK -done
 
 -time sensitive and how long it took them to complete(like date they did it). also language processing!
 
--add incomplete model
+-add incomplete model=only right now when they click incomplete(then next iteraton when time is up)
 
 -problem potentitally with how many completed tasks they did if in multiple groups- need to do
 
--going to do verifier as such: guy clicks completed (it disappears from his page, so need to make sure hidden and not visible with if on show), makes that current task have a completed.verified+=1. THen go through all completed tasks who have verified+1, and if it matches the text and completer_id of the accepted task, you see a new link beside that accepted task "Did User.find_by_completer_id(currenttask.completer_id) complete this?". They select yes. Makes that completed task (so the link will be for that completer task sending them to the delete method with one new params, which is verified. so If params[:verified]=true, then it deletes once they click verified, moving to the completerids and acceptedids completed task. If he clicks not verified, it makes that task (params[:verified]) -DONE
 
-- need to fix amount complpeted in each place, as in kacper has two in family home and two in his other family home, but those are different- need to do
-
+want to nicely display everything. -to do
 -make chart form
