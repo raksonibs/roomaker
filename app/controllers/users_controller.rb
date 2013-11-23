@@ -27,7 +27,11 @@ class UsersController < ApplicationController
     @nods=@user.nods
     @nos=@user.nos
     @incompletetasks=@user.incompletetasks
-
+    def selectmax(pendingtasks,acceptedtasks,completedtasks,currenttasks,incompletetasks)
+      arr=[pendingtasks,acceptedtasks,completedtasks,currenttasks,incompletetasks]
+      return arr.max_by {|x| x.size }
+    end
+    @large=selectmax(@pendingtasks,@acceptedtasks,@completedtasks,@currenttasks,@incompletetasks).size
 
 	end
 

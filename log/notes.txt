@@ -12,3 +12,4 @@ display error flash messages - to do
 
 want to nicely display everything. -to do
 -make chart form
+-display by group

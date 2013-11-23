@@ -1,18 +1,27 @@
 <%= link_to "New Pending Task", new_pendingtask_path %><br>
 <table>
 <thead>
-<th>
-  <tr>Pending Tasks|</tr>
-  <tr>Accepted Tasks|</tr>
-  <tr>Current Tasks|</tr>
-  <tr>Completed Tasks|</tr>
-  <tr>Incompleted Tasks|</tr>
-</th>
+<tr>
+  <th>Pending Tasks</th> <!-- status of pending, accepted, current -->
+  <th>Accepted Tasks</th>
+  <th>Current Tasks</th>
+  <th>Completed Tasks</th>
+  <th>Incompleted Tasks</th>
+</tr>
 </thead>
 <tbody>
+  <% count=0 %>
+  <% while count<@large %>
+
   <tr>
-    <td></td> 
+    <td><%= @pendingtasks[count].text unless @pendingtasks[count]==nil%></td> 
+    <td><%= @acceptedtasks[count].text unless @acceptedtasks[count]==nil%> </td>
+    <td><%= @currenttasks[count].text unless @currenttasks[count]==nil%></td>
+    <td><%=@completedtasks[count].text unless @completedtasks[count]==nil%></td>
+    <td><%= @incompletetasks[count].text unless @incompletetasks[count]==nil%></td>
   </tr>
+  <% count+=1 %>
+  <% end %>
 
 </tbody>
 </table>
