@@ -57,6 +57,7 @@ class UsersController < ApplicationController
   end
 
   def delete_tasks
+    unless current_user==nil
     @currentguy=User.find_by_id(current_user.id)
     @result={}
     @pendingtasks=Pendingtask.all
@@ -90,6 +91,7 @@ class UsersController < ApplicationController
         end
       end
     end
+  end
   end
 
 end

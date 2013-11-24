@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20131123183657) do
     t.string   "group"
     t.integer  "negthreshold"
     t.integer  "filler_id"
+    t.integer  "user_id"
   end
 
   create_table "pendingtasks_users", force: true do |t|
