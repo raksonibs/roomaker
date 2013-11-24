@@ -25,7 +25,7 @@
   <tr>
     <td>
       <% unless @grouptasks[task][count][supcount]==nil%>
-      <%= User.find_by_id(@grouptasks[task][count][supcount].assignee_id).name %> has to <%= @grouptasks[task][count][supcount].text%> <br><% unless @grouptasks[task][count][supcount]==nil%>
+      <%= current_user==User.find_by_id(@grouptasks[task][count][supcount].assignee_id) ? "You have" : User.find_by_id(@grouptasks[task][count][supcount].assignee_id).name + " has"%> to <%= @grouptasks[task][count][supcount].text%> <br>
       <% if current_user.id == @grouptasks[task][count][supcount].filler_id%>
 
     <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
@@ -34,21 +34,52 @@
   <% end %>
   <% if (@user.nos.where(pendingtask_id: @grouptasks[task][count][supcount].id).size)==0%>
     <%= link_to "No", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/no" %>
-  <% end %><% end %> <% end%></td>
+  <% end %><% end %> </td>
     <% count+=1 %>
-    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%> </td>
+    <td>
+      <% unless @grouptasks[task][count][supcount]==nil %>
+      <%= current_user==User.find_by_id(@grouptasks[task][count][supcount].completer_id) ? "You have" : User.find_by_id(@grouptasks[task][count][supcount].completer_id).name + " has" %>  to  
+      <%= @grouptasks[task][count][supcount].text %>
+      <% Currenttask.all.each do |cask| %>
+
+    <% if cask.verified>=1 %>
+      <% if cask.text==@grouptasks[task][count][supcount].text && cask.completer_id==@grouptasks[task][count][supcount].completer_id %><br>
+        <%= link_to "Verify Task's completion", "/users/#{cask.completer_id}/#{cask.id}/verifY" %> <br> 
+
+        <%= link_to "Verify Not completed", "/users/#{cask.completer_id}/#{cask.id}/not" %> <br> 
+      <% end %>
+    <% end %>
+  <% end %> 
+      <% end %> </td>
     <% count+=1 %>
-    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td> 
+    <td>
+      <% unless @grouptasks[task][count][supcount]==nil %>
+      <%= current_user==User.find_by_id(@grouptasks[task][count][supcount].completer_id) ? "You have" : User.find_by_id(@grouptasks[task][count][supcount].completer_id).name + " has"%>  to <%= @grouptasks[task][count][supcount].text %><br>
+      <% if @grouptasks[task][count][supcount].verified!=1 %>
+
+    <%= link_to "Complete?", "/users/#{@grouptasks[task][count][supcount].completer_id}/#{@grouptasks[task][count][supcount].id}/delete" %> <br>
+    <%= link_to "Not going to do it?", "/#{@grouptasks[task][count][supcount].completer_id}/#{@grouptasks[task][count][supcount].id}/incomplete" %> <br>
+  <% end %>
+  <% if @grouptasks[task][count][supcount].verified==1 %>
+    <%= "Waiting for verification".upcase %><br>
+  <% end %> 
+      <% end %> </td>
     <% count+=1 %>
-    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td> 
+    <td>
+      <% unless @grouptasks[task][count][supcount]==nil %>
+      <%= @grouptasks[task][count][supcount].text %> 
+      <% end %> </td>
     <% count+=1 %>
-    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td>
+    <td>
+      <% unless @grouptasks[task][count][supcount]==nil %>
+      <%= @grouptasks[task][count][supcount].text %> 
+      <% end %> </td>
     <% count+=1 %>
 
 <!--incompletetask-->
   </tr>
   <% supcount+=1 %>
-  <% end %>
+<% end %>
   <% end %>
 </tbody>
 </table>
@@ -56,53 +87,11 @@
 <% end %>
    
 
-
-
-<br> Pending Tasks:
-<% @pendingtasks.each do |task| %>
-<% task.users.each do |user| %>
-<% if user.id==current_user.id %>
-  <%= User.find_by_id(task.assignee_id).name %> has to: <%= task.text %>. <br>
-  Assigned by <%= User.find_by_id(task.filler_id).name %> and voted by: 
-  <% task.voter_ids.split.each do |id| %>
-  <%= User.find_by_id(id).name %><%= task.voter_ids.split(" ")[-1]==id ? "." : ", " %> 
-  <% end %> <br>
-  This is done in your <%= task.group %> <br> Needs either <%= task.threshold %>  votes against or for to pass: <br>
-  <% if current_user.id == task.filler_id%>
-
-    <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
-  <% end %>
-  <br>
-  Current Votes<br>
-  Number for: <%= task.nods.size %><br>
-  Number against: <%= task.nos.size %><br>
-
-  <% if (@user.nods.where(pendingtask_id: task.id).size)==0 %>
-    <p id="yes"> <%= link_to "yes", "/users/#{@user.id}/#{task.id}/yes" %></p>
-  <% end %>
-  <% if (@user.nos.where(pendingtask_id: task.id).size)==0%>
-    <p id="no"> <%= link_to "no", "/users/#{@user.id}/#{task.id}/no" %></p><br>
-  <% end %>
-<% end %>
-
-<% end %>
-
-<% end %>
-
 <br>
 <br> Accepted Tasks:
 <% @acceptedtasks.each do |task| %>
   Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>
-  <% Currenttask.all.each do |ctask| %>
-
-    <% if ctask.verified>=1 %>
-      <% if ctask.text==task.text && ctask.completer_id==task.completer_id %>
-        <%= link_to "Verify Task's completion", "/users/#{ctask.completer_id}/#{ctask.id}/verifY" %> <br> 
-
-        <%= link_to "Verify Not completed", "/users/#{ctask.completer_id}/#{ctask.id}/not" %> <br> 
-      <% end %>
-    <% end %>
-  <% end %>
+  
 <% end %>
 
 <br>

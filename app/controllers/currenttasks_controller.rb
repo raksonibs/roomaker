@@ -10,7 +10,7 @@ class CurrenttasksController < ApplicationController
 	end
 
 	def incomplete
-		debugger
+
 		task=Currenttask.find_by_id(params[:id])
 		@currentguy=current_user
 		@currentguy.incompletetasks.create!({text:task[:text],
