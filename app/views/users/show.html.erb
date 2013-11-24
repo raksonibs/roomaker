@@ -13,26 +13,29 @@
 </tr>
 </thead>
 <tbody>
-  <% count=0 %>
+  
+  <% supcount=0 %>
   <% @grouptasks[task].each do |val| %>
   <%= selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4])%>
 
-  <% while count < selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4]) %>
+  <% while supcount < selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4]) %>
+  <% count=0 %>
 
   <tr>
-    <td><%= val[count].text unless val[count]==nil%></td>
-     <!--pendingtask-->
-    <td><%= val[count].text unless val[count]==nil%></td>
-     <!--acceptedtask-->
-    <td><%= val[count].text unless val[count]==nil%></td>
-    <!--currenttask-->
-    <td><%= val[count].text unless val[count]==nil%></td>
-    <!--completedtask-->
-    <td><%= val[count].text unless val[count]==nil%></td>
+    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td>
+    <% count+=1 %>
+    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%> </td>
+    <% count+=1 %>
+    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td> 
+    <% count+=1 %>
+    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td> 
+    <% count+=1 %>
+    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td>
+    <% count+=1 %>
 
 <!--incompletetask-->
   </tr>
-  <% count+=1 %>
+  <% supcount+=1 %>
 
 
   
@@ -48,12 +51,30 @@
   <br><br><br><%= task.name %>
   <% count=0 %>
   <% secondcount=0 %>
-  <% @grouptasks[task].each do |val| %>
-  <%= val.size %> <br>
-    <%= @grouptasks[task][count][secondcount].text unless val[count]==nil%> ||| <br>
-    <% count+=1 %>
 
-  <% end %>
+  <%= @grouptasks[task][0][0].text unless @grouptasks[task][0][0]==nil%> ||| <br>
+  <%= @grouptasks[task][1][0].text unless @grouptasks[task][1][0]==nil%> ||| <br>
+  <%= @grouptasks[task][2][0].text unless @grouptasks[task][2][0]==nil%> ||| <br>
+  <%= @grouptasks[task][3][0].text unless @grouptasks[task][3][0]==nil%> ||| <br>
+  <%= @grouptasks[task][4][0].text unless @grouptasks[task][4][0]==nil%> ||| <br>
+  <br><br><br><br>
+  <%= @grouptasks[task][0][1].text unless @grouptasks[task][0][1]==nil%> ||| <br>
+  <%= @grouptasks[task][1][1].text unless @grouptasks[task][1][1]==nil%> ||| <br>
+  <%= @grouptasks[task][2][1].text unless @grouptasks[task][2][1]==nil%> ||| <br>
+  <%= @grouptasks[task][3][1].text unless @grouptasks[task][3][1]==nil%> ||| <br>
+  <%= @grouptasks[task][4][1].text unless @grouptasks[task][4][1]==nil%> ||| <br>
+  <br>
+  <br>
+  <br><br>
+  <%= @grouptasks[task][0][2].text unless @grouptasks[task][0][2]==nil%> ||| <br>
+  <%= @grouptasks[task][1][2].text unless @grouptasks[task][1][2]==nil%> ||| <br>
+  <%= @grouptasks[task][2][2].text unless @grouptasks[task][2][2]==nil%> ||| <br>
+  <%= @grouptasks[task][3][2].text unless @grouptasks[task][3][2]==nil%> ||| <br>
+  <%= @grouptasks[task][4][2].text unless @grouptasks[task][4][2]==nil%> ||| <br>
+  <br><br><br><br>
+  <% count+=1 %>
+
+
   <br>
  
 <% end %>
