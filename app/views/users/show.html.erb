@@ -4,7 +4,7 @@
   <tr>
     <th colspan="2"> Location: <%= task.name %> </th>
     <th colspan="2"> <%= link_to "New Pending Task", new_pendingtask_path %></th>
-    <th colspan="2"> <%= "Location Stats" %> </th>
+    <th colspan="2"> <%= link_to "Location Stats", group_path(task) %> </th>
   </tr>
 <tr>
   <th>Pending Tasks</th> <!-- status of pending, accepted, current -->
@@ -89,22 +89,5 @@
 
 
 
-<br>
-<p> <b>My Groups:</b> </p>
 
-<% @groups.each do |g| %>
-  <br><%= g.name %><br>
-  <% g.users.each do |u| %>
-     <%= u.name %>: 
-     <% usertotal=0 %>
-     <% u.completedtasks.each do |ct| %>
-        <% if ct.group == g.name %>
-           <% usertotal+=1 if u.id==ct.completer_id %>
-
-        <% end %>
-     <%end %>
-     <%= usertotal  %>
-
-  <% end %>
-<% end %>
 
