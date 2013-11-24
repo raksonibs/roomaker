@@ -1,3 +1,71 @@
+<% @grouptasks.keys.each do |task| %>
+<table>
+<thead>
+  <tr>
+    <th> <%= task.name %> </th>
+  </tr>
+<tr>
+  <th>Pending Tasks</th> <!-- status of pending, accepted, current -->
+  <th>Accepted Tasks</th>
+  <th>Current Tasks</th>
+  <th>Completed Tasks</th>
+  <th>Incompleted Tasks</th>
+</tr>
+</thead>
+<tbody>
+  <% count=0 %>
+  <% @grouptasks[task].each do |val| %>
+  <%= selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4])%>
+
+  <% while count < selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4]) %>
+
+  <tr>
+    <td><%= val[count].text unless val[count]==nil%></td>
+     <!--pendingtask-->
+    <td><%= val[count].text unless val[count]==nil%></td>
+     <!--acceptedtask-->
+    <td><%= val[count].text unless val[count]==nil%></td>
+    <!--currenttask-->
+    <td><%= val[count].text unless val[count]==nil%></td>
+    <!--completedtask-->
+    <td><%= val[count].text unless val[count]==nil%></td>
+
+<!--incompletetask-->
+  </tr>
+  <% count+=1 %>
+
+
+  
+
+  <% end %>
+  <% end %>
+</tbody>
+</table>
+  <br>
+<% end %>
+
+<% @grouptasks.keys.each do |task| %>
+  <br><br><br><%= task.name %>
+  <% count=0 %>
+  <% secondcount=0 %>
+  <% @grouptasks[task].each do |val| %>
+  <%= val.size %> <br>
+    <%= @grouptasks[task][count][secondcount].text unless val[count]==nil%> ||| <br>
+    <% count+=1 %>
+
+  <% end %>
+  <br>
+ 
+<% end %>
+   
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
 <%= link_to "New Pending Task", new_pendingtask_path %><br>
 <table>
 <thead>
@@ -14,11 +82,11 @@
   <% while count<@large %>
 
   <tr>
-    <td><%= @pendingtasks[count].text unless @pendingtasks[count]==nil%></td> 
-    <td><%= @acceptedtasks[count].text unless @acceptedtasks[count]==nil%> </td>
-    <td><%= @currenttasks[count].text unless @currenttasks[count]==nil%></td>
-    <td><%=@completedtasks[count].text unless @completedtasks[count]==nil%></td>
-    <td><%= @incompletetasks[count].text unless @incompletetasks[count]==nil%></td>
+    <td><%= @pendingtasks[count].group unless @pendingtasks[count]==nil%>| <%= @pendingtasks[count].text unless @pendingtasks[count]==nil%></td> 
+    <td><%= @acceptedtasks[count].group unless @acceptedtasks[count]==nil%>|<%= @acceptedtasks[count].text unless @acceptedtasks[count]==nil%>  </td>
+    <td><%= @currenttasks[count].group unless @currenttasks[count]==nil%>|<%= @currenttasks[count].text unless @currenttasks[count]==nil%></td>
+    <td><%=@completedtasks[count].group unless @completedtasks[count]==nil%>|<%= @completedtasks[count].text unless @completedtasks[count]==nil%></td>
+    <td><%= @incompletetasks[count].group unless @incompletetasks[count]==nil%>|<%= @incompletetasks[count].text unless @incompletetasks[count]==nil%></td>
   </tr>
   <% count+=1 %>
   <% end %>
@@ -123,3 +191,4 @@
 
   <% end %>
 <% end %>
+
