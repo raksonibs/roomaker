@@ -2,7 +2,9 @@
 <table>
 <thead>
   <tr>
-    <th> <%= task.name %> </th>
+    <th colspan="2"> Location: <%= task.name %> </th>
+    <th colspan="2"> <%= link_to "New Pending Task", new_pendingtask_path %></th>
+    <th colspan="2"> <%= "Location Stats" %> </th>
   </tr>
 <tr>
   <th>Pending Tasks</th> <!-- status of pending, accepted, current -->
@@ -16,13 +18,23 @@
   
   <% supcount=0 %>
   <% @grouptasks[task].each do |val| %>
-  <%= selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4])%>
 
   <% while supcount < selectmax(@grouptasks[task][0],@grouptasks[task][1],@grouptasks[task][2],@grouptasks[task][3],@grouptasks[task][4]) %>
   <% count=0 %>
 
   <tr>
-    <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%></td>
+    <td>
+      <% unless @grouptasks[task][count][supcount]==nil%>
+      <%= User.find_by_id(@grouptasks[task][count][supcount].assignee_id).name %> has to <%= @grouptasks[task][count][supcount].text%> <br><% unless @grouptasks[task][count][supcount]==nil%>
+      <% if current_user.id == @grouptasks[task][count][supcount].filler_id%>
+
+    <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
+  <% end %> <%= @grouptasks[task][count][supcount].nods.size %> vs.    <%= @grouptasks[task][count][supcount].nos.size %> | Needs <%= @grouptasks[task][count][supcount].threshold %> votes<br> <% if (@user.nods.where(pendingtask_id: @grouptasks[task][count][supcount].id).size)==0 %>
+    Vote <%= link_to "Yes", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/yes" %> or
+  <% end %>
+  <% if (@user.nos.where(pendingtask_id: @grouptasks[task][count][supcount].id).size)==0%>
+    <%= link_to "No", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/no" %>
+  <% end %><% end %> <% end%></td>
     <% count+=1 %>
     <td><%= @grouptasks[task][count][supcount].text unless @grouptasks[task][count][supcount]==nil%> </td>
     <% count+=1 %>
@@ -36,84 +48,13 @@
 <!--incompletetask-->
   </tr>
   <% supcount+=1 %>
-
-
-  
-
   <% end %>
   <% end %>
 </tbody>
 </table>
   <br>
-<% end %>
-
-<% @grouptasks.keys.each do |task| %>
-  <br><br><br><%= task.name %>
-  <% count=0 %>
-  <% secondcount=0 %>
-
-  <%= @grouptasks[task][0][0].text unless @grouptasks[task][0][0]==nil%> ||| <br>
-  <%= @grouptasks[task][1][0].text unless @grouptasks[task][1][0]==nil%> ||| <br>
-  <%= @grouptasks[task][2][0].text unless @grouptasks[task][2][0]==nil%> ||| <br>
-  <%= @grouptasks[task][3][0].text unless @grouptasks[task][3][0]==nil%> ||| <br>
-  <%= @grouptasks[task][4][0].text unless @grouptasks[task][4][0]==nil%> ||| <br>
-  <br><br><br><br>
-  <%= @grouptasks[task][0][1].text unless @grouptasks[task][0][1]==nil%> ||| <br>
-  <%= @grouptasks[task][1][1].text unless @grouptasks[task][1][1]==nil%> ||| <br>
-  <%= @grouptasks[task][2][1].text unless @grouptasks[task][2][1]==nil%> ||| <br>
-  <%= @grouptasks[task][3][1].text unless @grouptasks[task][3][1]==nil%> ||| <br>
-  <%= @grouptasks[task][4][1].text unless @grouptasks[task][4][1]==nil%> ||| <br>
-  <br>
-  <br>
-  <br><br>
-  <%= @grouptasks[task][0][2].text unless @grouptasks[task][0][2]==nil%> ||| <br>
-  <%= @grouptasks[task][1][2].text unless @grouptasks[task][1][2]==nil%> ||| <br>
-  <%= @grouptasks[task][2][2].text unless @grouptasks[task][2][2]==nil%> ||| <br>
-  <%= @grouptasks[task][3][2].text unless @grouptasks[task][3][2]==nil%> ||| <br>
-  <%= @grouptasks[task][4][2].text unless @grouptasks[task][4][2]==nil%> ||| <br>
-  <br><br><br><br>
-  <% count+=1 %>
-
-
-  <br>
- 
 <% end %>
    
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<%= link_to "New Pending Task", new_pendingtask_path %><br>
-<table>
-<thead>
-<tr>
-  <th>Pending Tasks</th> <!-- status of pending, accepted, current -->
-  <th>Accepted Tasks</th>
-  <th>Current Tasks</th>
-  <th>Completed Tasks</th>
-  <th>Incompleted Tasks</th>
-</tr>
-</thead>
-<tbody>
-  <% count=0 %>
-  <% while count<@large %>
-
-  <tr>
-    <td><%= @pendingtasks[count].group unless @pendingtasks[count]==nil%>| <%= @pendingtasks[count].text unless @pendingtasks[count]==nil%></td> 
-    <td><%= @acceptedtasks[count].group unless @acceptedtasks[count]==nil%>|<%= @acceptedtasks[count].text unless @acceptedtasks[count]==nil%>  </td>
-    <td><%= @currenttasks[count].group unless @currenttasks[count]==nil%>|<%= @currenttasks[count].text unless @currenttasks[count]==nil%></td>
-    <td><%=@completedtasks[count].group unless @completedtasks[count]==nil%>|<%= @completedtasks[count].text unless @completedtasks[count]==nil%></td>
-    <td><%= @incompletetasks[count].group unless @incompletetasks[count]==nil%>|<%= @incompletetasks[count].text unless @incompletetasks[count]==nil%></td>
-  </tr>
-  <% count+=1 %>
-  <% end %>
-
-</tbody>
-</table>
 
 
 
