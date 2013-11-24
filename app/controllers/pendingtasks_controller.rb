@@ -17,78 +17,75 @@ class PendingtasksController < ApplicationController
 		allin=true
 		@voting_ids=[]
 		@voters= []
-
+		
 		unless params[:pendingtask][:assignee_id]=="" && params[:pendingtask][:text]=="" 
+	
 			unless @selfassinger==nil
-		@pendingtask.assignee_id=@selfassinger.id
-		params.keys.each do |name|
-			@voting_ids << User.find_by_name(name).id if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
-			@voters << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
-		end
-		@voting_ids << @selfassinger.id
-		@voting_ids << current_user.id unless @selfassinger == current_user
-		@voters << @selfassinger
-		@voters << current_user unless @selfassinger == current_user #did not have before, may screw up system
-		@voting_ids.each do |user|
-			allin=false if !usersingroup.include?(User.find_by_id(user))
-		end
-		@pendingtask.users << current_user
-		@pendingtask.voter_ids= @voting_ids.join(" ")
-		@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
-		#voting_ids of all users. stringoids use to be assign to 2 and 3 votes= 2,3. if self assign would be say oskar did, 1,2,3
-		#will right voting_ids.each do |user|
-	#pendingtask.users << user unless @user=@selfassigner (cause already made) && user.id==@selfassinger.id (not sure about this one)
-		#stringofids=stringofids + " " + @user.id.to_s unless @user.id.to_s==params[:pendingtask][:assignee_id]
-		threshold=((@voting_ids.size.to_f)/2.0).ceil #need to worry about if even
-		threshold= @voting_ids.size%2==0 ? threshold+1 : threshold
-		negthreshold=threshold*-1
-		@pendingtask.threshold=threshold
-		@pendingtask.negthreshold=negthreshold
-		@pendingtask.filler_id=current_user.id
-
-
-
-    	@pendingtask.points = 0
-
-        group = Group.find_by_id(params[:pendingtask][:group])
-        @pendingtask.group = group.name
-        #check when self if voter id and current user id are the saem
-        oneguy=true
-
-        if current_user.id==@pendingtask.voter_ids[-1].to_i
-        	if @pendingtask.voter_ids.size==1
-        		oneguy=false
-        		
-        	end
-        end
-
-
-    	if @pendingtask.save && allin && oneguy
-			@voters.each do |user|
-				#tests if current user is the self user, if it is should not read assign to users.
-				@pendingtask.users << user if !(user==current_user)
-			end
 				
 
-			redirect_to @user
-		end
-	else
-		@pendingtask.destroy
+				@pendingtask.assignee_id=@selfassinger.id
+				params.keys.each do |name|
+					@voting_ids << User.find_by_name(name).id if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
+					@voters << User.find_by_name(name) if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
+				end
+				@voting_ids << @selfassinger.id
+				@voting_ids << current_user.id unless @selfassinger == current_user
+				@voters << @selfassinger
+				@voters << current_user unless @selfassinger == current_user #did not have before, may screw up system
+				@voting_ids.each do |user|
+					allin=false if !usersingroup.include?(User.find_by_id(user))
+				end
+				@pendingtask.users << current_user
+				@pendingtask.voter_ids= @voting_ids.join(" ")
+				@pendingtask.group=Group.find_by_id(params[:pendingtask][:group]).name
+				threshold=((@voting_ids.size.to_f)/2.0).ceil #need to worry about if even
+				threshold= @voting_ids.size%2==0 ? threshold+1 : threshold
+				negthreshold=threshold*-1
+				@pendingtask.threshold=threshold
+				@pendingtask.negthreshold=negthreshold
+				@pendingtask.filler_id=current_user.id
+				@pendingtask.points = 0
+
+        		group = Group.find_by_id(params[:pendingtask][:group])
+        		@pendingtask.group = group.name
+        		#check when self if voter id and current user id are the saem
+        		oneguy=true
+
+        		if current_user.id==@pendingtask.voter_ids[-1].to_i
+        			if @pendingtask.voter_ids.size==1
+        				oneguy=false
+        		
+        			end
+        		end
+
+
+    			if @pendingtask.save && allin && oneguy
+					@voters.each do |user|
+					#tests if current user is the self user, if it is should not read assign to users.
+						@pendingtask.users << user if !(user==current_user)
+					end
+				
+
+				redirect_to @user
+				end
+			else
+		
+				@pendingtask.destroy
 			
-			if oneguy==false
-				flash[:error]="Invalid Task. Cannot assign only yourself a task."
+				if oneguy==false
+					flash[:error]="Invalid Task. Cannot assign only yourself a task."
 			
-			elsif allin==false
-				flash[:error]="Invalid Task. Voters cannot be from across different houses when specifying a house's task."
-			elsif params[:pendingtask][:assignee_id]==""
-				debugger
-				flash[:error]="Invalid Task. Fill in proper name of person you want to complete task."
-			elsif params[:pendingtask][:text]==""
-				debugger
-				flash[:error]="Invalid Task. Please put a task."
+				elsif allin==false
+					flash[:error]="Invalid Task. Voters cannot be from across different houses when specifying a house's task."
+				elsif params[:pendingtask][:assignee_id]==""
+				
+					flash[:error]="Invalid Task. Fill in proper name of person you want to complete task."
+				elsif params[:pendingtask][:text]==""
+
+					flash[:error]="Invalid Task. Please put a task."
+				end
+				redirect_to new_pendingtask_path
 			end
-			redirect_to new_pendingtask_path
-	end
 		else
 			@pendingtask.destroy
 			
@@ -98,15 +95,20 @@ class PendingtasksController < ApplicationController
 			elsif allin==false
 				flash[:error]="Invalid Task. Voters cannot be from across different houses when specifying a house's task."
 			elsif params[:pendingtask][:assignee_id]==""
-				debugger
+				
 				flash[:error]="Invalid Task. Fill in proper name of person you want to complete task."
 			elsif params[:pendingtask][:text]==""
-				debugger
+				
 				flash[:error]="Invalid Task. Please put a task."
 			end
 			redirect_to new_pendingtask_path
-			
+		
 		end
+	if @group.users.size==1
+		
+		@pendingtask.destroy
+		redirect_to new_pendingtask_path
+	end
 
 	end
 

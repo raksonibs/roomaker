@@ -13,13 +13,24 @@ Number of Tasks completed: <br>
 
   <% end %>
 
+<% if !@group.users.size==1 %>
   Who has done the most: <%= themost(@group).name %><br>
   Who has done the least: <%= theleast(@group).name %><br>
-  Who has done the most recent task: <%= mostrecent(@group)[0].name %> with <%= Completedtask.find_by_id(mostrecent(@group)[1]).text %> at <%= Completedtask.find_by_id(mostrecent(@group)[1]).created_at %><br>
-  Who has not done a task in the longest time: <%= User.find_by_id(leastrecent(@group)[0]).name %> at <%= leastrecent(@group)[1].created_at %><br>
+
+  Who has done the most recent task: <%= mostrecent(@group)[0]==nil ? "Your network is too small" : mostrecent(@group)[0].name %> with <%= Completedtask.find_by_id(mostrecent(@group)[1])==nil ? "no tasks" : Completedtask.find_by_id(mostrecent(@group)[1]).text %> at <%= Completedtask.find_by_id(mostrecent(@group)[1])==nil ? "none created" : Completedtask.find_by_id(mostrecent(@group)[1]).created_at %><br>
+
+  Who has not done a task in the longest time: 
+  <% unless (leastrecent(@group))==nil %>
+  <%= User.find_by_id(leastrecent(@group)[0]).name %> at <%= leastrecent(@group)[1].created_at %><br>
   Who has never done anything: <div style="display: inline"><% never(@group).keys.each do |val| %>
   									<%= val.name %>
   									<% if never(@group).keys.size>1 && val!=never(@group).keys.last %>
   										<%= "and" %>
   									<% end %>
   								<% end %></div>
+<% end %>
+
+<% else %>
+  <%= "Get a larger network!" %>
+
+<% end %>

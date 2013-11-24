@@ -21,17 +21,20 @@ module GroupsHelper
 	def theleast(group)
 		min=10000
 		minuser=nil
- 		group.users.each do |u| 
-     		usertotal=0 
-     		u.completedtasks.each do |ct|
-        		if ct.group == group.name
-           			usertotal+=1 if u.id==ct.completer_id
+		unless group.users.size==1
+
+ 			group.users.each do |u| 
+     			usertotal=0 
+     			u.completedtasks.each do |ct|
+        			if ct.group == group.name
+           				usertotal+=1 if u.id==ct.completer_id
+        			end
         		end
-        	end
-        	if usertotal<=min
-        		min=usertotal 
-        		minuser=u
-        	end
+        		if usertotal<=min
+        			min=usertotal 
+        			minuser=u
+        		end
+			end
 		end
 		return minuser
 	end
