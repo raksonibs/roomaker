@@ -28,7 +28,7 @@
       <%= current_user==User.find_by_id(@grouptasks[task][count][supcount].assignee_id) ? "You have" : User.find_by_id(@grouptasks[task][count][supcount].assignee_id).name + " has"%> to <%= @grouptasks[task][count][supcount].text%> <br>
       <% if current_user.id == @grouptasks[task][count][supcount].filler_id%>
 
-    <%= link_to "Delete Task", pendingtask_path(task), :confirm => "Delete?", :method => :delete %>
+    <%= link_to "Delete Task", pendingtask_path(@grouptasks[task][count][supcount].id), :confirm => "Delete?", :method => :delete %>
   <% end %> <%= @grouptasks[task][count][supcount].nods.size %> vs.    <%= @grouptasks[task][count][supcount].nos.size %> | Needs <%= @grouptasks[task][count][supcount].threshold %> votes<br> <% if (@user.nods.where(pendingtask_id: @grouptasks[task][count][supcount].id).size)==0 %>
     Vote <%= link_to "Yes", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/yes" %> or
   <% end %>

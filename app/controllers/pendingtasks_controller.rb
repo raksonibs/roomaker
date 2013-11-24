@@ -117,7 +117,7 @@ class PendingtasksController < ApplicationController
     	@usernow=current_user
       @pendingtask = Pendingtask.find_by_id(params[:id])
 
-      @pendingtask.delete
+      @pendingtask.destroy
       redirect_to user_path(@usernow)
     end
   end
