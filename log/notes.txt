@@ -1,7 +1,7 @@
 want time on completion of task, - to do
 want to make sure that tasks fro each group is different - done?
 would like invite to group - to do
-display error flash messages - to do
+display error flash messages. Wnat custom error messages - to do WILL DO TONIGHT
 
 -time sensitive and how long it took them to complete(like date they did it). also language processing!
 

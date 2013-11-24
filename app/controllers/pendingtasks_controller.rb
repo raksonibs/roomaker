@@ -5,9 +5,6 @@ class PendingtasksController < ApplicationController
 		@user=User.find(current_user.id)
 		@pendingtask=Pendingtask.new
 		@groups=@user.groups
-
-		@groups.each do |group|
-		end
 	end
 
 	def create
@@ -20,6 +17,9 @@ class PendingtasksController < ApplicationController
 		allin=true
 		@voting_ids=[]
 		@voters= []
+
+		unless params[:pendingtask][:assignee_id]=="" && params[:pendingtask][:text]=="" 
+			unless @selfassinger==nil
 		@pendingtask.assignee_id=@selfassinger.id
 		params.keys.each do |name|
 			@voting_ids << User.find_by_name(name).id if User.find_by_name(name)!=nil && User.find_by_name(name)!=current_user && User.find_by_name(name)!=@selfassinger
@@ -63,7 +63,7 @@ class PendingtasksController < ApplicationController
         end
 
 
-    if @pendingtask.save && allin && oneguy
+    	if @pendingtask.save && allin && oneguy
 			@voters.each do |user|
 				#tests if current user is the self user, if it is should not read assign to users.
 				@pendingtask.users << user if !(user==current_user)
@@ -71,10 +71,39 @@ class PendingtasksController < ApplicationController
 				
 
 			redirect_to @user
-
+		end
+	else
+		@pendingtask.destroy
+			
+			if oneguy==false
+				flash[:error]="Invalid Task. Cannot assign only yourself a task."
+			
+			elsif allin==false
+				flash[:error]="Invalid Task. Voters cannot be from across different houses when specifying a house's task."
+			elsif params[:pendingtask][:assignee_id]==""
+				debugger
+				flash[:error]="Invalid Task. Fill in proper name of person you want to complete task."
+			elsif params[:pendingtask][:text]==""
+				debugger
+				flash[:error]="Invalid Task. Please put a task."
+			end
+			redirect_to new_pendingtask_path
+	end
 		else
 			@pendingtask.destroy
-			flash[:error]="Didn't work"
+			
+			if oneguy==false
+				flash[:error]="Invalid Task. Cannot assign only yourself a task."
+			
+			elsif allin==false
+				flash[:error]="Invalid Task. Voters cannot be from across different houses when specifying a house's task."
+			elsif params[:pendingtask][:assignee_id]==""
+				debugger
+				flash[:error]="Invalid Task. Fill in proper name of person you want to complete task."
+			elsif params[:pendingtask][:text]==""
+				debugger
+				flash[:error]="Invalid Task. Please put a task."
+			end
 			redirect_to new_pendingtask_path
 			
 		end

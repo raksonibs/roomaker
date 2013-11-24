@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   	if @user.save
   		redirect_to "/welcome_path", :notice => "Signed up!"
   	else
+      
   		render "new"
   	end
   end

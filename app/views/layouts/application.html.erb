@@ -12,6 +12,7 @@
   </head>
 
   <body>
+    
   <% if current_user %>
  <nav class="top-bar" data-topbar>
   <ul class="title-area">
@@ -72,6 +73,11 @@
     </ul>
   </section>
 </nav>
+<% if flash[:error] %>
+      <%= flash[:error]%>
+    <% elsif flash[:notice] %>
+      <%= flash[:notice] %>
+    <% end %>
 
 
 <% end %>
