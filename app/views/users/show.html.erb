@@ -67,12 +67,12 @@
     <% count+=1 %>
     <td>
       <% unless @grouptasks[task][count][supcount]==nil %>
-      <%= @grouptasks[task][count][supcount].text %> 
+      <%= User.find_by_id(@grouptasks[task][count][supcount].completer_id).name %> did <%= @grouptasks[task][count][supcount].text %> 
       <% end %> </td>
     <% count+=1 %>
     <td>
       <% unless @grouptasks[task][count][supcount]==nil %>
-      <%= @grouptasks[task][count][supcount].text %> 
+      <%= User.find_by_id(@grouptasks[task][count][supcount].completer_id).name %> did not <%= @grouptasks[task][count][supcount].text %> 
       <% end %> </td>
     <% count+=1 %>
 
@@ -83,44 +83,9 @@
   <% end %>
 </tbody>
 </table>
-  <br>
+
 <% end %>
    
-
-<br>
-<br> Accepted Tasks:
-<% @acceptedtasks.each do |task| %>
-  Accepted by <%= User.find_by_id(task.completer_id).name %> to do <%= task.text %> in the <%= task.group %>. <br>
-  
-<% end %>
-
-<br>
-<br> Current:
-<% @currenttasks.each do |task| %>
-  You have to <%= task.text %> in the <%= task.group %><br>
-  <%= task.verified %>
-  <% if task.verified!=1 %>
-
-    <%= link_to "Complete?", "/users/#{task.completer_id}/#{task.id}/delete" %> <br>
-    <%= link_to "Not going to do it?", "/#{task.completer_id}/#{task.id}/incomplete" %> <br>
-  <% end %>
-  <% if task.verified==1 %>
-    <%= "Waiting for verification".upcase %><br>
-  <% end %>
-<% end %>
-
-<br>
-<br> Completed:
-
-<% @completedtasks.each do |task| %>
-   <%= User.find_by_id(task.completer_id).name %> completed the task: <%= task.text %> in the <%= task.group %>  <br>
-<% end %>
-
-<br> Incomplete:
-<% @incompletetasks.each do |task| %>
-   <%= User.find_by_id(task.completer_id).name %> did not complete the task: <%= task.text %> in the <%= task.group %>  <br>
-<% end %>
-<br>
 
 
 
