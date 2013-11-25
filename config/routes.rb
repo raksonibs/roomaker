@@ -1,4 +1,5 @@
 Roommaker::Application.routes.draw do
+  get "invites/destroy"
   get "welcome/index"
   resources :sessions, :only=> [:new,:create,:destroy]
   resources :users do
@@ -26,6 +27,9 @@ Roommaker::Application.routes.draw do
   get "/users/:user_id/:id/:not" => "currenttasks#delete"
   get "/:user_id/:id/incomplete" => "currenttasks#incomplete"
   get "groups/:group_id/:user_id/leave" => "groups#leave"
+  get "groups/:group_id/invite" => "groups#invite"
+  post "/groups/:group_id/invitesearch" => "groups#invitesearch"
+  resources :invites, :only=> [:destroy]
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

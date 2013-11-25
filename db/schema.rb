@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131123183657) do
+ActiveRecord::Schema.define(version: 20131125001810) do
 
   create_table "acceptedtasks", force: true do |t|
     t.string   "text"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20131123183657) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "creator_id"
   end
 
   create_table "groups_users", id: false, force: true do |t|
@@ -58,6 +59,14 @@ ActiveRecord::Schema.define(version: 20131123183657) do
     t.integer  "user_id"
     t.integer  "completer_id"
     t.string   "group"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invites", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

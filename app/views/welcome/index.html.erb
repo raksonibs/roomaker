@@ -1,4 +1,10 @@
 <h1>Welcome to Room Maker</h1>
 <p>Where we make room for roomates</p>
-<p> Sign up! </p>
+<% if current_user %>
+	Your invited to join: <br>
+	<% current_user.invites.each do |i| %>
+		<%= User.find_by_id(i.creator_id).name + " invited you to "+ Group.find_by_id(i.group_id).name %> <%= link_to "Join this group", edit_group_path(Group.find_by_id(i.group_id)) %> <%= link_to "Reject Invitation", invite_path(i), :confirm => "Reject?", :method => :delete %>
+	<% end %>
+<% end %>
+
 <!-- show example of how it works on main page -->
