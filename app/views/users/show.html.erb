@@ -33,7 +33,7 @@
     Vote <%= link_to "Yes", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/yes" %> or
   <% end %>
   <% if (@user.nos.where(pendingtask_id: @grouptasks[task][count][supcount].id).size)==0%>
-    <%= link_to "No", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/no" %>
+    Vote <%= link_to "No", "/users/#{@user.id}/#{@grouptasks[task][count][supcount].id}/no" %>
   <% end %><% end %> </td>
     <% count+=1 %>
     <td>

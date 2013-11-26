@@ -9,7 +9,11 @@
 	<% current_user.asks.each do |a| %>
 		<%= User.find_by_id(a.asker_id).name + " has asked to join "+ Group.find_by_id(a.group_id).name %> <%= link_to "Let him join group", "groups/#{a.group_id}/#{a.asker_id}" %> <%= link_to "Reject Invitation", ask_path(a), :confirm => "Reject?", :method => :delete %>
 	<% end %>
-<% end %>
+<% else %>
+This is how it works:
+<img src="chart.png">
 
-This is how it works
+<% end %>
+<br>
+
 <!-- show example of how it works on main page -->
