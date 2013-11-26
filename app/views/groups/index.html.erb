@@ -1,3 +1,10 @@
+<%= form_tag "/groups/search" do %>
+  Search for 
+   <%= label_tag :group_name %>
+      <%= text_field_tag :group_name, params[:group_name] %>
+  <%= submit_tag("Search") %>
+<% end %>
+
 <% @groups.each do |group| %>
   <%= group.name %> Size: <%= group.users.size %> <%= "Group Creator: "+ User.find_by_id(group.creator_id).name unless group.creator_id==nil %>
   <% if current_user.id==group.creator_id %>

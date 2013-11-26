@@ -4,6 +4,15 @@ class GroupsController < ApplicationController
 		
 	end
 
+	def search
+		@group=Group.find_by_name(params[:group_name])
+		@groups=[]
+		Group.all.each do |group|
+			@groups<<group if group.name[0]==params[:group_name][0]
+		end
+		
+	end
+
 	def leave
 		@user=current_user
 		@group=Group.find_by_id(params[:group_id])
