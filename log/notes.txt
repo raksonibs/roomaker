@@ -12,4 +12,4 @@ display error flash messages. Wnat custom error messages - to do WILL DO TONIGHT
 -want to show all tasks by most recent/oldest if you click them
 -stats: chart of activity for group and around what times chores most active
 
--inviters: ask to join group (limit to number of times you can ask) or person who creates group invites people (only once they have signed up. Basically you search for a user's name and then invite to group that you created. so need creator_id in group category)
+-inviters: ask to join group (limit to number of times you can ask) or person who creates group invites people (only once they have signed up. Basically you search for a user's name and then invite to group that you created. so need creator_id in group category). Now want to ask to join

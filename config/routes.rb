@@ -30,6 +30,7 @@ Roommaker::Application.routes.draw do
   get "groups/:group_id/invite" => "groups#invite"
   post "/groups/:group_id/invitesearch" => "groups#invitesearch"
   resources :invites, :only=> [:destroy]
+  get "groups/:group_id/ask" => "groups#ask"
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

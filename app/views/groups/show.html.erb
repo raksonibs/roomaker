@@ -13,7 +13,7 @@ Number of Tasks completed: <br>
 
   <% end %>
 
-<% if !@group.users.size==1 %>
+<% if !(@group.users.size<=1) %>
   Who has done the most: <%= themost(@group).name %><br>
   Who has done the least: <%= theleast(@group).name %><br>
 
