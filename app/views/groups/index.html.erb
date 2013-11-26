@@ -6,7 +6,7 @@
   <% if current_user.groups.include?(group) %>
   	<%= link_to "Leave", "groups/#{group.id}/#{current_user.id}/leave" %>
   <% else %>
-  	<%= link_to "Ask to Join", edit_group_path(group) %>
+  	<%= link_to "Ask to Join", "/groups/#{group.id}/ask" %>
   <% end %>
 
    <br>

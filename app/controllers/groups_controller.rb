@@ -71,6 +71,30 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 	end
 
+	def join
+		@group = Group.find(params[:group_id])
+		@user = User.find_by_id(params[:asker_id])
+
+		if @group.save
+			@group.users << @user unless @group.users.include? @user
+			@user.invites.each do |i|
+				i.delete if i.group_id==@group.id
+			end
+			redirect_to "/users/#{current_user.id}"
+		end
+	end
+
+	def ask
+		#editgrouppathadds to group
+		@asker=current_user
+		@group=Group.find_by_id(params[:group_id])
+		@creator=User.find_by_id(@group.creator_id)
+		@creator.asks << Ask.new({:asker_id=>@asker.id,
+								  :group_id=>@group.id})
+		flash[:notice]="Request to join sent"
+		redirect_to current_user
+	end
+
 	def edit
 		@group = Group.find(params[:id])
 		@user = current_user

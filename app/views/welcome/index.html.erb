@@ -5,6 +5,10 @@
 	<% current_user.invites.each do |i| %>
 		<%= User.find_by_id(i.creator_id).name + " invited you to "+ Group.find_by_id(i.group_id).name %> <%= link_to "Join this group", edit_group_path(Group.find_by_id(i.group_id)) %> <%= link_to "Reject Invitation", invite_path(i), :confirm => "Reject?", :method => :delete %>
 	<% end %>
+	These people have asked to join your group: <br>
+	<% current_user.asks.each do |a| %>
+		<%= User.find_by_id(a.asker_id).name + " has asked to join "+ Group.find_by_id(a.group_id).name %> <%= link_to "Let him join group", "groups/#{a.group_id}/#{a.asker_id}" %> <%= link_to "Reject Invitation", ask_path(a), :confirm => "Reject?", :method => :delete %>
+	<% end %>
 <% end %>
 
 This is how it works
