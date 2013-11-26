@@ -11,6 +11,8 @@ group :development do
   gem 'sqlite3'
 end
 
+gem 'newrelic_rpm'
+
 group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor'

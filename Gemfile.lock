@@ -74,6 +74,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multipart-post (1.2.0)
+    newrelic_rpm (3.6.9.171)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -157,6 +158,7 @@ DEPENDENCIES
   foundation-rails
   jbuilder (~> 1.2)
   jquery-rails
+  newrelic_rpm
   omniauth
   omniauth-facebook (= 1.4.0)
   pg (= 0.15.1)
