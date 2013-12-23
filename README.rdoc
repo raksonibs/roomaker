@@ -1,28 +1,31 @@
-== README
+== About
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Roomaker is a collaborative to do list app. Friends can team up and create tasks for its teammates to complete. The voting system ensures that no tasks are assigned to someone without a majority rule! Originally stemmed from the need to track which roommate did what chore.
 
-Things you may want to cover:
+== UI Goals (Stella)
 
-* Ruby version
+* overall look and feel
 
-* System dependencies
+* responsive layout for mobile views
 
-* Configuration
+* accentuation of tasks of higher priority (colours? hierarchy?)
 
-* Database creation
+* what is the consequence of not completing a task?
 
-* Database initialization
+* better tables that can be sorted by due date or assigned date
 
-* How to run the test suite
+* list of all complete tasks per team
 
-* Services (job queues, cache servers, search engines, etc.)
+* metrics: add charts to show who in your team has completed the most tasks
 
-* Deployment instructions
+* time limit to the completion of a task; if the time runs out, automatically becomes incomplete
 
-* ...
-Want to make facebook authentication with apikey
+== Stretch
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* more robust possible suggestions
+
+* Testing!
+
+* limit the amount of groups shown at once
+
+* limit the amount of times someone asks to join a group and can be asked to join a group
